@@ -4,6 +4,7 @@ import { Phone, Mail, MapPin, Navigation, Building2, Send } from 'lucide-react';
 import { Seo, medicalOrgJsonLd } from '@/lib/seo/Seo';
 import { site } from '@/data/site';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { pageImages } from '@/data/pageImages';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -18,7 +19,7 @@ export default function ContactPage() {
   return (
     <>
       <Seo title="Contact Us" description={`Contact ${site.name}, Dewas. Address, phone, email and directions.`} path="/contact" jsonLd={medicalOrgJsonLd()} />
-      <PageHeader crumbs={[{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }]} title="Contact Us" intro="Reach us by phone, email or visit — and find your way to the campus." />
+      <PageHeader crumbs={[{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }]} title="Contact Us" intro="Reach us by phone, email or visit — and find your way to the campus." image={pageImages.contact} />
 
       <Container className="py-10">
         <div className="grid gap-8 lg:grid-cols-2">

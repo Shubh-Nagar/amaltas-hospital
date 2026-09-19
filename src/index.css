@@ -4,30 +4,33 @@
 
 /* ============================================================
    DESIGN TOKENS (single source of truth for color)
-   Palette: deep medical teal-green + warm gold accent + warm neutrals.
+   Palette: matched to the Amaltas University brand (amaltasuniversity.in) —
+   deep forest green + emerald + vivid brand gold. Anchor values taken from
+   that site's tokens: navy #0B2C18, navy2 #103A22, ink #0E2417,
+   em #12863F, emL #23A653, gold #F6E005, goldL #FBED5B.
    Values are space-separated RGB channels so Tailwind's <alpha-value>
    works (e.g. text-brand-600/80).
    ============================================================ */
 @layer base {
   :root {
-    --brand-50: 236 246 243;
-    --brand-100: 209 235 228;
-    --brand-200: 166 216 202;
-    --brand-300: 112 190 171;
-    --brand-400: 62 158 138;
-    --brand-500: 30 128 110;
-    --brand-600: 18 100 88;
-    --brand-700: 15 76 70; /* primary */
-    --brand-800: 16 61 56;
-    --brand-900: 14 49 45;
-    --brand-950: 6 30 27;
+    --brand-50: 234 246 238;
+    --brand-100: 207 235 217;
+    --brand-200: 165 217 184;
+    --brand-300: 111 195 142;
+    --brand-400: 61 175 106;
+    --brand-500: 35 166 83;  /* emL  #23A653 */
+    --brand-600: 18 134 63;  /* em   #12863F */
+    --brand-700: 16 107 51;  /* primary */
+    --brand-800: 16 58 34;   /* navy2 #103A22 */
+    --brand-900: 11 44 24;   /* navy  #0B2C18 */
+    --brand-950: 14 36 23;   /* ink   #0E2417 */
 
-    --accent-50: 251 244 231;
-    --accent-100: 246 231 205;
-    --accent-400: 231 178 108;
-    --accent-500: 224 164 88; /* warm gold */
-    --accent-600: 198 138 63;
-    --accent-700: 158 108 46;
+    --accent-50: 254 252 226;
+    --accent-100: 253 247 176;
+    --accent-400: 251 237 91; /* goldL #FBED5B */
+    --accent-500: 246 224 5;  /* gold  #F6E005 */
+    --accent-600: 240 196 25; /* deeper gold, for hover fills */
+    --accent-700: 138 106 8;  /* text-safe gold on light surfaces */
 
     --canvas: 250 250 248;
     --surface: 255 255 255;

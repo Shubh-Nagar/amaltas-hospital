@@ -7,6 +7,7 @@ import { doctors } from '@/data/doctors';
 import { site } from '@/data/site';
 import { Container } from '@/components/ui/Container';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { pageImages } from '@/data/pageImages';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 
@@ -89,6 +90,7 @@ export default function AppointmentPage() {
         crumbs={[{ name: 'Home', path: '/' }, { name: 'Patients & Visitors', path: '/patients' }, { name: 'Appointment', path: '/patients/appointment' }]}
         title="Book an Appointment"
         intro="Request a visit in a few steps. Our team will call to confirm — we never show unverified availability."
+      image={pageImages.appointment}
       />
 
       <Container className="py-10">

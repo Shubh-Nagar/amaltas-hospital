@@ -3,6 +3,7 @@ import { Seo, breadcrumbJsonLd } from '@/lib/seo/Seo';
 import { articles } from '@/data/articles';
 import { pressClippingSlots } from '@/data/press';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { pageImages } from '@/data/pageImages';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -31,6 +32,7 @@ export default function NewsPage() {
         ]}
         title="News"
         intro="Announcements and updates from Amaltas."
+      image={pageImages.news}
       />
 
       <Container className="py-10">

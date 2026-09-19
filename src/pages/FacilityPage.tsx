@@ -4,6 +4,7 @@ import { facilities } from '@/data/facilities';
 import { resolveIcon } from '@/lib/icons';
 import { Container } from '@/components/ui/Container';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { pageImages } from '@/data/pageImages';
 import { Placeholder } from '@/components/ui/Placeholder';
 import { Button } from '@/components/ui/Button';
 import { VerificationNote } from '@/components/ui/VerificationNote';
@@ -24,6 +25,7 @@ export default function FacilityPage() {
         crumbs={[{ name: 'Home', path: '/' }, { name: 'Facilities', path: '/facilities' }, { name: facility.name, path }]}
         title={facility.name}
         intro={facility.summary}
+        image={facility.image ?? pageImages.facilities}
       />
       <Container className="py-10">
         {!facility.verified && <VerificationNote>This facility record is unverified — confirm details before publishing.</VerificationNote>}

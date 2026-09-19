@@ -10,9 +10,11 @@ import { cn } from '@/lib/utils';
  * keyboard focus (focus-within), closes on Escape/blur. Panels are grouped
  * columns rather than a wall of links.
  */
-export function MegaMenu() {
+export function MegaMenu({ tone = 'dark' }: { tone?: 'dark' | 'light' }) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const { pathname } = useLocation();
+  /* `light` is for the transparent header over the homepage hero. */
+  const light = tone === 'light';
 
   return (
     <nav aria-label="Primary" className="hidden lg:block">
@@ -36,7 +38,13 @@ export function MegaMenu() {
                 aria-expanded={hasPanel ? openIdx === i : undefined}
                 className={cn(
                   'inline-flex items-center gap-1 whitespace-nowrap rounded-full px-3.5 py-2 text-[0.95rem] font-medium transition-colors',
-                  isActive ? 'text-brand-800' : 'text-ink/80 hover:text-brand-800 hover:bg-brand-50',
+                  light
+                    ? isActive
+                      ? 'text-white'
+                      : 'text-white/85 hover:bg-white/10 hover:text-white'
+                    : isActive
+                      ? 'text-brand-800'
+                      : 'text-ink/80 hover:text-brand-800 hover:bg-brand-50',
                 )}
               >
                 {item.label}

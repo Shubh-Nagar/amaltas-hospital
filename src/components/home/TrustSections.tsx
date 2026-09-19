@@ -82,10 +82,10 @@ export function AdvancedTech() {
         </div>
         <div className="aspect-video overflow-hidden rounded-2xl border border-white/10">
           <img
-            src="/images/gallery/endoscopic-procedure.jpg"
-            alt="Clinical team using imaging equipment during a minimally invasive procedure at Amaltas Hospital"
-            width={1600}
-            height={898}
+            src="/images/gallery/ct-scanner.webp"
+            alt="CT scanner in the imaging department at Amaltas Hospital"
+            width={1536}
+            height={862}
             loading="lazy"
             decoding="async"
             className="h-full w-full object-cover"

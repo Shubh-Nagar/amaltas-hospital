@@ -1,6 +1,7 @@
 import { Seo, medicalOrgJsonLd, breadcrumbJsonLd } from '@/lib/seo/Seo';
 import { site, accreditations, stats } from '@/data/site';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { pageImages } from '@/data/pageImages';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -12,7 +13,7 @@ export default function AboutPage() {
     <>
       <Seo title="About Amaltas" description={`About ${site.name} (${site.academicName}), a NABH-accredited multi-superspeciality hospital in Dewas.`} path="/about"
         jsonLd={[medicalOrgJsonLd(), breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }])]} />
-      <PageHeader crumbs={[{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }]} title="About Amaltas" intro={site.descriptionShort} />
+      <PageHeader crumbs={[{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }]} title="About Amaltas" intro={site.descriptionShort} image={pageImages.about} />
 
       <Container className="py-10">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">

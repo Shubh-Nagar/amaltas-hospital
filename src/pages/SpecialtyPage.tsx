@@ -8,6 +8,7 @@ import { articles } from '@/data/articles';
 import { resolveIcon } from '@/lib/icons';
 import { Container } from '@/components/ui/Container';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { pageImages, specialtyImages } from '@/data/pageImages';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { DoctorCard } from '@/components/doctors/DoctorCard';
@@ -45,10 +46,11 @@ export default function SpecialtyPage() {
         crumbs={[{ name: 'Home', path: '/' }, { name: 'Specialties', path: '/specialties' }, { name: specialty.name, path }]}
         title={specialty.name}
         intro={specialty.description}
+        image={specialtyImages[specialty.slug] ?? pageImages.specialties}
       >
         <div className="flex flex-wrap gap-3">
           <Button to="/patients/appointment"><CalendarPlus className="h-4 w-4" aria-hidden /> Book Appointment</Button>
-          <Button href="#doctors" variant="outline"><Stethoscope className="h-4 w-4" aria-hidden /> See doctors</Button>
+          <Button href="#doctors" variant="outline" className="border-white/40 text-white hover:bg-white/10"><Stethoscope className="h-4 w-4" aria-hidden /> See doctors</Button>
         </div>
       </PageHeader>
 

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Seo, breadcrumbJsonLd } from '@/lib/seo/Seo';
 import { gallery } from '@/data/gallery';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { pageImages } from '@/data/pageImages';
 import { Container } from '@/components/ui/Container';
 import { Placeholder } from '@/components/ui/Placeholder';
 import { cn } from '@/lib/utils';
@@ -15,7 +16,7 @@ export default function GalleryPage() {
     <>
       <Seo title="Gallery" description="Photos of the Amaltas campus, facilities and events." path="/gallery"
         jsonLd={breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Gallery', path: '/gallery' }])} />
-      <PageHeader crumbs={[{ name: 'Home', path: '/' }, { name: 'Gallery', path: '/gallery' }]} title="Gallery" intro="A look at our campus, facilities and community." />
+      <PageHeader crumbs={[{ name: 'Home', path: '/' }, { name: 'Gallery', path: '/gallery' }]} title="Gallery" intro="A look at our campus, facilities and community." image={pageImages.gallery} />
       <Container className="py-10">
         <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Gallery categories">
           {categories.map((c) => (

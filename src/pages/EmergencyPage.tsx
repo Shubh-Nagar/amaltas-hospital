@@ -3,6 +3,7 @@ import { Seo } from '@/lib/seo/Seo';
 import { site } from '@/data/site';
 import { Container } from '@/components/ui/Container';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { pageImages } from '@/data/pageImages';
 
 const tel = `tel:${site.phone.tollFree.replace(/[^+\d]/g, '')}`;
 const mapQuery = encodeURIComponent(`${site.name} ${site.address.line1} ${site.address.city}`);
@@ -15,6 +16,7 @@ export default function EmergencyPage() {
         crumbs={[{ name: 'Home', path: '/' }, { name: 'Patients & Visitors', path: '/patients' }, { name: 'Emergency', path: '/patients/emergency' }]}
         title="Emergency Care — 24 / 7"
         intro="In a medical emergency, call us immediately. Our emergency department operates around the clock."
+      image={pageImages.emergency}
       />
       <Container className="py-10">
         <div className="rounded-3xl bg-emergency px-6 py-10 text-center text-white">

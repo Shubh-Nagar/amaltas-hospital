@@ -35,7 +35,7 @@ export function PatientStories() {
       <div className="mt-9 grid gap-5 md:grid-cols-3">
         {stories.slice(0, 3).map((t) => (
           <Card key={t.slug} className="p-6">
-            <Quote className="h-7 w-7 text-accent-500" aria-hidden />
+            <Quote className="h-7 w-7 text-accent-700" aria-hidden />
             <p className="mt-3 text-ink/90">“{t.quote}”</p>
             <p className="mt-4 text-sm font-semibold text-brand-900">{t.patientName}</p>
             {t.treatment && <p className="text-xs text-muted">{t.treatment}</p>}

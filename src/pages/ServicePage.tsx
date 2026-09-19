@@ -6,6 +6,7 @@ import { specialties } from '@/data/specialties';
 import { resolveIcon } from '@/lib/icons';
 import { Container } from '@/components/ui/Container';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { pageImages, serviceImages } from '@/data/pageImages';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
@@ -34,6 +35,7 @@ export default function ServicePage() {
         crumbs={[{ name: 'Home', path: '/' }, { name: 'Services', path: '/services' }, { name: service.name, path }]}
         title={service.name}
         intro={service.summary}
+        image={serviceImages[service.slug] ?? pageImages.services}
       >
         <div className="flex flex-wrap items-center gap-3">
           {service.is24x7 && <Badge tone="emergency">Available 24/7</Badge>}

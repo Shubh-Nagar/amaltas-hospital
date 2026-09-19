@@ -1,6 +1,7 @@
 import { CalendarPlus, Ambulance, ShieldCheck, Wallet, BedDouble, FileText, ArrowRight } from 'lucide-react';
 import { Seo, breadcrumbJsonLd } from '@/lib/seo/Seo';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { pageImages } from '@/data/pageImages';
 import { Container } from '@/components/ui/Container';
 import { Card } from '@/components/ui/Card';
 
@@ -18,7 +19,7 @@ export default function PatientsPage() {
     <>
       <Seo title="Patients & Visitors" description="Everything you need to plan a visit to Amaltas — appointments, emergency, admission, facilities and more." path="/patients"
         jsonLd={breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Patients & Visitors', path: '/patients' }])} />
-      <PageHeader crumbs={[{ name: 'Home', path: '/' }, { name: 'Patients & Visitors', path: '/patients' }]} title="Patients & Visitors" intro="Plan your visit and find the support you need." />
+      <PageHeader crumbs={[{ name: 'Home', path: '/' }, { name: 'Patients & Visitors', path: '/patients' }]} title="Patients & Visitors" intro="Plan your visit and find the support you need." image={pageImages.patients} />
       <Container className="py-10">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((it) => (

@@ -2,6 +2,7 @@ import { GraduationCap, BookOpen, Users, Building2 } from 'lucide-react';
 import { Seo, breadcrumbJsonLd } from '@/lib/seo/Seo';
 import { site } from '@/data/site';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { pageImages } from '@/data/pageImages';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -21,7 +22,8 @@ export default function AcademicsPage() {
       <Seo title="Academics — Amaltas Institute of Medical Sciences" description={`Medical education at ${site.academicName}, Dewas.`} path="/academics"
         jsonLd={breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Academics', path: '/academics' }])} />
       <PageHeader crumbs={[{ name: 'Home', path: '/' }, { name: 'Academics', path: '/academics' }]} title="Academics"
-        intro={`${site.academicName} — training the next generation of doctors alongside patient care.`} />
+        intro={`${site.academicName} — training the next generation of doctors alongside patient care.`} image={pageImages.academics}
+                                                                                                         />
 
       <Container className="py-10">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">

@@ -4,6 +4,7 @@ import { Seo, breadcrumbJsonLd } from '@/lib/seo/Seo';
 import { doctors } from '@/data/doctors';
 import { specialties } from '@/data/specialties';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { pageImages } from '@/data/pageImages';
 import { Container } from '@/components/ui/Container';
 import { DoctorCard } from '@/components/doctors/DoctorCard';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -37,6 +38,7 @@ export default function DoctorsPage() {
         crumbs={[{ name: 'Home', path: '/' }, { name: 'Doctors', path: '/doctors' }]}
         title="Find a Doctor"
         intro="Search our specialists by name or filter by specialty."
+        image={pageImages.doctors}
       >
         <div className="flex flex-col gap-3 sm:flex-row">
           <label className="relative flex-1">
