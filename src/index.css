@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   DESIGN TOKENS (single source of truth for color)
+   Palette: deep medical teal-green + warm gold accent + warm neutrals.
+   Values are space-separated RGB channels so Tailwind's <alpha-value>
+   works (e.g. text-brand-600/80).
+   ============================================================ */
+@layer base {
+  :root {
+    --brand-50: 236 246 243;
+    --brand-100: 209 235 228;
+    --brand-200: 166 216 202;
+    --brand-300: 112 190 171;
+    --brand-400: 62 158 138;
+    --brand-500: 30 128 110;
+    --brand-600: 18 100 88;
+    --brand-700: 15 76 70; /* primary */
+    --brand-800: 16 61 56;
+    --brand-900: 14 49 45;
+    --brand-950: 6 30 27;
+
+    --accent-50: 251 244 231;
+    --accent-100: 246 231 205;
+    --accent-400: 231 178 108;
+    --accent-500: 224 164 88; /* warm gold */
+    --accent-600: 198 138 63;
+    --accent-700: 158 108 46;
+
+    --canvas: 250 250 248;
+    --surface: 255 255 255;
+    --ink: 24 34 32;
+    --muted: 92 106 102;
+    --line: 224 228 226;
+
+    --emergency: 200 45 45;
+    --emergency-dark: 158 30 30;
+    --success: 33 128 96;
+    --warning: 176 122 20;
+    --error: 190 44 44;
+  }
+
+  * { border-color: rgb(var(--line)); }
+
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 { @apply font-display text-brand-900; text-wrap: balance; }
+  p { text-wrap: pretty; }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-canvas rounded-sm;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100]
+           focus:rounded-lg focus:bg-brand-700 focus:px-4 focus:py-2 focus:text-white;
+  }
+
+  .prose-editorial {
+    @apply max-w-prose text-lg leading-relaxed text-ink/90 [&>p]:mb-5
+           [&>h2]:mt-10 [&>h2]:mb-3 [&>h2]:text-h3
+           [&>h3]:mt-8 [&>h3]:mb-2 [&>h3]:text-h4
+           [&>ul]:mb-5 [&>ul]:list-disc [&>ul]:pl-6 [&>ul>li]:mb-1;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+}
