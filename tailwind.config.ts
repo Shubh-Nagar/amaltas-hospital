@@ -77,8 +77,13 @@ const config: Config = {
       transitionTimingFunction: { soft: 'cubic-bezier(0.22, 1, 0.36, 1)' },
       keyframes: {
         'fade-up': { '0%': { opacity: '0', transform: 'translateY(12px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        // Chat typing indicator dots
+        typing: { '0%, 60%, 100%': { opacity: '0.35', transform: 'translateY(0)' }, '30%': { opacity: '1', transform: 'translateY(-4px)' } },
       },
-      animation: { 'fade-up': 'fade-up 0.5s cubic-bezier(0.22,1,0.36,1) both' },
+      animation: {
+        'fade-up': 'fade-up 0.5s cubic-bezier(0.22,1,0.36,1) both',
+        typing: 'typing 1.1s ease-in-out infinite',
+      },
     },
   },
   plugins: [],

@@ -8,6 +8,8 @@ import { RootLayout } from '@/components/layout/RootLayout';
  */
 const HomePage = lazy(() => import('@/pages/HomePage'));
 const AboutPage = lazy(() => import('@/pages/AboutPage'));
+const ChairmanMessagePage = lazy(() => import('@/pages/ChairmanMessagePage'));
+const WhyChooseAmaltasPage = lazy(() => import('@/pages/WhyChooseAmaltasPage'));
 const DoctorsPage = lazy(() => import('@/pages/DoctorsPage'));
 const DoctorProfilePage = lazy(() => import('@/pages/DoctorProfilePage'));
 const SpecialtiesPage = lazy(() => import('@/pages/SpecialtiesPage'));
@@ -36,6 +38,8 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: 'about', element: <AboutPage /> },
+      { path: 'about/chairman-message', element: <ChairmanMessagePage /> },
+      { path: 'about/why-choose-amaltas', element: <WhyChooseAmaltasPage /> },
 
       { path: 'doctors', element: <DoctorsPage /> },
       { path: 'doctors/:slug', element: <DoctorProfilePage /> },

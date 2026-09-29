@@ -151,6 +151,10 @@ export interface ConditionCategory {
   blurb: string;
   icon: string;
   specialtySlug: Slug;
+  /** Background photo for the homepage explorer card. */
+  image?: ImageAsset;
+  /** CSS object-position focal point for that photo (default "center"). */
+  focus?: string;
 }
 
 export interface GalleryItem {

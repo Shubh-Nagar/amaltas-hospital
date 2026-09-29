@@ -27,3 +27,7 @@ dist-ssr
 .env
 .env.local
 .env.*.local
+
+# Raw drone footage (over GitHub's 100 MB limit; site uses campus-drone-compressed.mp4)
+public/images/drone video*.mp4
+public/videos/campus-drone.mp4

@@ -20,6 +20,7 @@ export const pageImages = {
   about: g('campus-exterior-front.webp'),
   academics: g('department-of-medicine-team.webp'),
   appointment: g('opd-registration.webp'),
+  chairman: g('campus-exterior-front.webp'),
   articles: g('doctor-ward-round.webp'),
   contact: g('outpatient-consultation.webp'),
   doctors: g('surgical-team.webp'),
@@ -31,6 +32,7 @@ export const pageImages = {
   patients: g('reception-desk.webp'),
   services: g('echocardiography.webp'),
   specialties: g('cath-lab.webp'),
+  whyChoose: g('surgical-team.webp'),
 } satisfies Record<string, PageImage>;
 
 /** Per-specialty banners; falls back to the specialties banner. */

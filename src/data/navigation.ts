@@ -96,6 +96,8 @@ export const primaryNav: NavItem[] = [
         heading: 'Amaltas',
         links: [
           { label: 'About Amaltas', href: '/about' },
+          { label: "Chairman's Message", href: '/about/chairman-message' },
+          { label: 'Why Choose Amaltas', href: '/about/why-choose-amaltas' },
           { label: 'Accreditations', href: '/about#accreditations' },
           { label: 'Facilities', href: '/facilities' },
           { label: 'Gallery', href: '/gallery' },

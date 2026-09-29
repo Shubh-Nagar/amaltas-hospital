@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { site } from '@/data/site';
 
 /** Graphic width in px at each breakpoint — must match the classes on the moving wrapper. */
 const GRAPHIC_WIDTH = { base: 420, sm: 480 };
@@ -27,19 +28,20 @@ function useDriveRange() {
 
 /**
  * Decorative 3D-styled ambulance that drives across the bottom of the hero,
- * towing a waving banner that reads "24/7 Emergency Contact".
+ * towing a waving banner with the 24/7 toll-free emergency number.
  * Purely ornamental — hidden from assistive tech, frozen for reduced motion.
  */
 export function AmbulanceRunner() {
   const reduce = useReducedMotion();
   const drive = useDriveRange();
 
-  /* Banner wave keyframes (cloth) + matching text baselines. */
+  /* Banner wave keyframes (cloth) + matching baselines for the two text lines. */
   const cloth = [
-    'M262,10 C210,0 130,22 30,10 L30,52 C130,62 210,40 262,44 Z',
-    'M262,10 C210,20 130,0 30,16 L30,58 C130,40 210,58 262,44 Z',
+    'M262,6 C210,-4 130,18 30,6 L30,58 C130,68 210,46 262,50 Z',
+    'M262,6 C210,16 130,-4 30,12 L30,64 C130,46 210,64 262,50 Z',
   ];
-  const baseline = ['M34,33 C132,44 212,24 258,29', 'M34,39 C132,22 212,42 258,29'];
+  const labelBaseline = ['M34,24 C132,35 212,15 258,20', 'M34,30 C132,13 212,33 258,20'];
+  const numberBaseline = ['M34,45 C132,56 212,36 258,41', 'M34,51 C132,34 212,54 258,41'];
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-[38px] z-20 h-[150px] overflow-hidden">
@@ -135,21 +137,23 @@ export function AmbulanceRunner() {
                 <stop offset="100%" stopColor="#ffe9a8" stopOpacity="0" />
               </radialGradient>
 
-              <path id="amb-banner-baseline" d={baseline[0]}>
-                {!reduce && (
-                  <animate
-                    attributeName="d"
-                    dur="2.4s"
-                    repeatCount="indefinite"
-                    values={`${baseline[0]};${baseline[1]};${baseline[0]}`}
-                  />
-                )}
-              </path>
+              {(
+                [
+                  ['amb-banner-label', labelBaseline],
+                  ['amb-banner-number', numberBaseline],
+                ] as const
+              ).map(([id, [a, b]]) => (
+                <path key={id} id={id} d={a}>
+                  {!reduce && (
+                    <animate attributeName="d" dur="2.4s" repeatCount="indefinite" values={`${a};${b};${a}`} />
+                  )}
+                </path>
+              ))}
             </defs>
 
             {/* ---- Flying banner, towed from the rear mast ---- */}
             <g>
-              <rect x="259" y="8" width="4" height="52" rx="2" fill="#7b8b88" />
+              <rect x="259" y="4" width="4" height="60" rx="2" fill="#7b8b88" />
               <path d={cloth[0]} fill="url(#amb-banner)" stroke="#7a1616" strokeWidth="1">
                 {!reduce && (
                   <animate
@@ -160,9 +164,14 @@ export function AmbulanceRunner() {
                   />
                 )}
               </path>
-              <text fontSize="12.5" fontWeight="700" letterSpacing="0.4" fill="#ffffff">
-                <textPath href="#amb-banner-baseline" startOffset="50%" textAnchor="middle">
-                  24/7 EMERGENCY CONTACT
+              <text fontSize="9.5" fontWeight="700" letterSpacing="0.6" fill="#ffffff" fillOpacity="0.9">
+                <textPath href="#amb-banner-label" startOffset="50%" textAnchor="middle">
+                  24/7 EMERGENCY · TOLL FREE
+                </textPath>
+              </text>
+              <text fontSize="16" fontWeight="800" letterSpacing="0.5" fill="#ffffff">
+                <textPath href="#amb-banner-number" startOffset="50%" textAnchor="middle">
+                  {site.phone.tollFree}
                 </textPath>
               </text>
             </g>

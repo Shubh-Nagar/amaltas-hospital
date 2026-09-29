@@ -5,6 +5,7 @@ import { Footer } from './Footer';
 import { ScrollToTop } from './ScrollToTop';
 import { RouteProgress } from './RouteProgress';
 import { MobileActionBar } from '@/components/emergency/MobileActionBar';
+import { ChatWidget } from '@/components/chat/ChatWidget';
 import { PageLoader } from '@/components/ui/PageLoader';
 
 /** App shell shared by every route. */
@@ -22,6 +23,7 @@ export function RootLayout() {
       </main>
       <Footer />
       <MobileActionBar />
+      <ChatWidget />
     </div>
   );
 }

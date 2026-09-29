@@ -12,38 +12,45 @@ import { articles } from '@/data/articles';
  * diagnosis. For a large content set, swap this for a prebuilt index / API.
  */
 export function useSearchIndex(): SearchResult[] {
-  return useMemo(() => {
-    const results: SearchResult[] = [];
+  return useMemo(() => buildSearchIndex(), []);
+}
 
-    for (const d of doctors) {
-      results.push({
-        type: 'doctor',
-        title: d.name,
-        subtitle: [d.role, d.qualifications].filter(Boolean).join(' · '),
-        href: `/doctors/${d.slug}`,
-        keywords: `${d.name} ${d.role ?? ''} ${d.qualifications} ${d.specialtySlugs.join(' ')}`,
-      });
-    }
-    for (const s of specialties) {
-      results.push({
-        type: 'specialty',
-        title: s.name,
-        subtitle: s.tagline,
-        href: `/specialties/${s.slug}`,
-        keywords: `${s.name} ${s.tagline} ${s.conditions.join(' ')} ${s.treatments.join(' ')} ${s.category}`,
-      });
-    }
-    for (const s of services) {
-      results.push({ type: 'service', title: s.name, subtitle: s.summary, href: `/services/${s.slug}`, keywords: `${s.name} ${s.summary}` });
-    }
-    for (const f of facilities) {
-      results.push({ type: 'facility', title: f.name, subtitle: f.summary, href: `/facilities/${f.slug}`, keywords: `${f.name} ${f.summary}` });
-    }
-    for (const a of articles) {
-      results.push({ type: 'article', title: a.title, subtitle: a.excerpt, href: `/${a.kind === 'article' ? 'articles' : a.kind === 'news' ? 'news' : 'events'}/${a.slug}`, keywords: `${a.title} ${a.excerpt} ${a.category ?? ''}` });
-    }
-    return results;
-  }, []);
+let cached: SearchResult[] | null = null;
+
+/** Non-hook access to the same index (used by the Riya chat assistant). */
+export function buildSearchIndex(): SearchResult[] {
+  if (cached) return cached;
+  const results: SearchResult[] = [];
+
+  for (const d of doctors) {
+    results.push({
+      type: 'doctor',
+      title: d.name,
+      subtitle: [d.role, d.qualifications].filter(Boolean).join(' · '),
+      href: `/doctors/${d.slug}`,
+      keywords: `${d.name} ${d.role ?? ''} ${d.qualifications} ${d.specialtySlugs.join(' ')}`,
+    });
+  }
+  for (const s of specialties) {
+    results.push({
+      type: 'specialty',
+      title: s.name,
+      subtitle: s.tagline,
+      href: `/specialties/${s.slug}`,
+      keywords: `${s.name} ${s.tagline} ${s.conditions.join(' ')} ${s.treatments.join(' ')} ${s.category}`,
+    });
+  }
+  for (const s of services) {
+    results.push({ type: 'service', title: s.name, subtitle: s.summary, href: `/services/${s.slug}`, keywords: `${s.name} ${s.summary}` });
+  }
+  for (const f of facilities) {
+    results.push({ type: 'facility', title: f.name, subtitle: f.summary, href: `/facilities/${f.slug}`, keywords: `${f.name} ${f.summary}` });
+  }
+  for (const a of articles) {
+    results.push({ type: 'article', title: a.title, subtitle: a.excerpt, href: `/${a.kind === 'article' ? 'articles' : a.kind === 'news' ? 'news' : 'events'}/${a.slug}`, keywords: `${a.title} ${a.excerpt} ${a.category ?? ''}` });
+  }
+  cached = results;
+  return results;
 }
 
 export function searchIndex(index: SearchResult[], query: string): SearchResult[] {

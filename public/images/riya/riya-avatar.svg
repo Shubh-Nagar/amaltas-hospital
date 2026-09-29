@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Riya, Amaltas Hospital virtual assistant">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="75%">
+      <stop offset="0" stop-color="#EAF6EE"/>
+      <stop offset="1" stop-color="#8FCFA6"/>
+    </radialGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3A241D"/>
+      <stop offset="1" stop-color="#22140F"/>
+    </linearGradient>
+    <clipPath id="c"><circle cx="64" cy="64" r="64"/></clipPath>
+  </defs>
+  <g clip-path="url(#c)">
+    <rect width="128" height="128" fill="url(#bg)"/>
+
+    <!-- hair (back, shoulder length) -->
+    <path d="M31 58c0-22 14-36 33-36s33 14 33 36c0 18 3 34 9 46H22c6-12 9-28 9-46z" fill="url(#hair)"/>
+
+    <!-- neck -->
+    <path d="M55 76h18v20H55z" fill="#C4856A"/>
+    <path d="M55 84c6 5 12 5 18 0v-8H55z" fill="#AD7258" opacity=".6"/>
+
+    <!-- white coat -->
+    <path d="M14 128c2-20 12-31 34-35l16 11 16-11c22 4 32 15 34 35z" fill="#FFFFFF"/>
+    <path d="M48 93l16 11 16-11" fill="none" stroke="#E0E4E2" stroke-width="1.5"/>
+    <!-- green scrubs V-neck -->
+    <path d="M51 93.5L64 113l13-19.5-4.5-1.5L64 104l-8.5-12z" fill="#12863F"/>
+    <!-- lapels -->
+    <path d="M48 93l-4 15 12 6 8-10zM80 93l4 15-12 6-8-10z" fill="#F4F6F5"/>
+    <!-- stethoscope -->
+    <path d="M50 96c-4 10-3 20 6 24M78 96c4 10 3 20-6 24" fill="none" stroke="#0B2C18" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="64" cy="121" r="4.2" fill="#0B2C18"/>
+    <circle cx="64" cy="121" r="2" fill="#9AA5A1"/>
+    <!-- name badge -->
+    <rect x="84" y="108" width="15" height="6" rx="1.5" fill="#F6E005"/>
+
+    <!-- ears + earrings -->
+    <ellipse cx="42.5" cy="61" rx="3.6" ry="5.2" fill="#C98C6F"/>
+    <ellipse cx="85.5" cy="61" rx="3.6" ry="5.2" fill="#C98C6F"/>
+    <circle cx="42.5" cy="68" r="1.6" fill="#F0C419"/>
+    <circle cx="85.5" cy="68" r="1.6" fill="#F0C419"/>
+
+    <!-- face -->
+    <ellipse cx="64" cy="58" rx="21.5" ry="24.5" fill="#D69A7B"/>
+
+    <!-- hair (front, side part) -->
+    <path d="M41 56c-1-19 10-30 25-30 14 0 23 10 22 28-5-10-13-16-24-17-9 2-17 8-23 19z" fill="url(#hair)"/>
+
+    <!-- brows -->
+    <path d="M52 52.5q4.5-2.8 9 0M67 52.5q4.5-2.8 9 0" fill="none" stroke="#2A1812" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- eyes -->
+    <ellipse cx="56.5" cy="59" rx="2.3" ry="2.7" fill="#23140F"/>
+    <ellipse cx="71.5" cy="59" rx="2.3" ry="2.7" fill="#23140F"/>
+    <circle cx="57.3" cy="58.1" r=".7" fill="#fff"/>
+    <circle cx="72.3" cy="58.1" r=".7" fill="#fff"/>
+    <!-- nose -->
+    <path d="M64 61.5q-1.8 5 .6 6.2" fill="none" stroke="#B9785C" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- cheeks -->
+    <circle cx="52.5" cy="67.5" r="3.6" fill="#E48F7A" opacity=".45"/>
+    <circle cx="75.5" cy="67.5" r="3.6" fill="#E48F7A" opacity=".45"/>
+    <!-- smile -->
+    <path d="M57.5 71.5q6.5 5.5 13 0" fill="#fff" stroke="#9A4B3C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

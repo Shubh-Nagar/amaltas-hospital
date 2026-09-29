@@ -88,8 +88,13 @@ in-page. It never renders in production.
 
 ### [NEW ASSET REQUIRED]
 
-The build ships **no stock or fabricated imagery**. Every image slot uses a
-branded gradient `Placeholder`. Supply real, authentic assets for: hospital
+The build ships **no fabricated imagery**. One deliberate exception to the
+no-stock rule: the homepage "What brings you here?" cards use free-licence
+**Unsplash** and **Pexels** photos (`public/images/care/`;
+[Unsplash licence](https://unsplash.com/license), [Pexels licence](https://www.pexels.com/license/) —
+commercial use, no attribution required) to illustrate each topic. They are not
+Amaltas photographs; source ids are listed in `src/data/conditionCategories.ts`.
+Every other image slot uses real Amaltas photography or a branded gradient `Placeholder`. Supply real, authentic assets for: hospital
 exterior/interior, doctor headshots, facility photos, and gallery tiles. Drop
 files into `public/` and set the `image` field on the relevant data record.
 
@@ -112,6 +117,34 @@ files into `public/` and set the `image` field on the relevant data record.
 real-time availability. On submit it validates and shows a success state; wiring
 to a secure backend is a documented TODO (`VITE_APPOINTMENT_ENDPOINT`). See
 `docs/architecture/technical-architecture.md`.
+
+---
+
+## Riya — chat assistant
+
+A floating assistant on every page (`src/components/chat/`, mounted in
+`RootLayout`). It runs entirely in the browser: no API keys, no backend, and
+nothing is stored — conversations live in memory only. It opens automatically
+whenever the visitor arrives on the homepage (first load, refresh or navigation); while open, the page behind is blurred
+and clicking it minimises the chat. Riya's profile picture is
+`public/images/riya/riya-avatar.svg` — replace it (or change `RIYA_PHOTO` in
+`ChatMessage.tsx`) to use a real photograph.
+
+- **Knowledge = the website.** `src/lib/chat/knowledge.ts` compiles answers from
+  the same `src/data/*` files the pages render, so updating a doctor, specialty
+  or phone number there updates Riya automatically. Unverified records get a
+  "still being confirmed" qualifier and `[CONTENT REQUIRES VERIFICATION]`
+  markers are stripped. Questions the site can't answer (visiting hours,
+  fees, insurers) get an honest "not on our website" plus the contact route.
+- **Languages.** English, Hindi and Hinglish are auto-detected per message
+  (`src/lib/chat/text.ts`); users can also pick one in the header or type
+  "reply in Hindi". All wording lives in `src/lib/chat/copy.ts`.
+- **Understanding.** `src/lib/chat/engine.ts` matches intents and entities by
+  keyword (including Hindi/Hinglish synonyms), keeps context for follow-ups
+  ("who are the doctors there?", "his timings?"), always prioritises emergency
+  wording, and declines to give medical advice.
+- **Extending.** Add synonyms to the maps in `knowledge.ts`, intent keywords
+  in `engine.ts`, and matching sentences for all three languages in `copy.ts`.
 
 ---
 
