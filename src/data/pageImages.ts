@@ -29,6 +29,7 @@ export const pageImages = {
   events: g('support-security-team.webp'),
   facilities: g('general-ward.webp'),
   gallery: g('surgery-in-theatre.webp'),
+  healthPackages: g('pathology-lab.webp'),
   news: g('campus-exterior-front.webp'),
   patients: g('reception-desk.webp'),
   services: g('echocardiography.webp'),

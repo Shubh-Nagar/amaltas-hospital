@@ -59,7 +59,7 @@ export function Hero() {
       </div>
 
       <Container className="relative z-10">
-        <div className="grid items-center gap-10 pb-32 pt-28 sm:pb-36 sm:pt-32 lg:grid-cols-[1.1fr_0.9fr] lg:pb-40 lg:pt-36">
+        <div className="grid items-center gap-10 pb-32 pt-28 sm:pb-36 sm:pt-32 lg:grid-cols-[1.1fr_0.9fr] lg:pb-40 lg:pt-44">
           <div>
             <motion.p {...rise(0)} className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-brand-950/50 px-3 py-1 text-sm text-white/90 backdrop-blur-sm">
               <ShieldCheck className="h-4 w-4 text-accent-400" aria-hidden />

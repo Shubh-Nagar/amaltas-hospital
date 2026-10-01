@@ -63,7 +63,7 @@ export function MegaMenu({ tone = 'dark' }: { tone?: 'dark' | 'light' }) {
                     <div
                       className={cn(
                         'rounded-2xl border border-line bg-surface p-5 shadow-card-hover',
-                        item.columns!.length > 1 ? 'w-[min(38rem,90vw)]' : 'w-72',
+                        item.columns!.length > 1 ? 'w-[min(38rem,90vw)]' : 'w-80',
                       )}
                     >
                       <div className={cn('grid gap-x-6 gap-y-1', item.columns!.length > 1 ? 'grid-cols-2' : 'grid-cols-1')}>

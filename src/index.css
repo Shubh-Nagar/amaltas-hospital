@@ -88,3 +88,19 @@
 @layer utilities {
   .text-balance { text-wrap: balance; }
 }
+
+/* Endless horizontal scroller (see components/ui/Marquee). The track holds two
+   copies of its items, so sliding it by half its width loops seamlessly. */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+.marquee-track.marquee-ltr { animation-direction: reverse; }
+.group\/marquee:hover .marquee-track,
+.group\/marquee:focus-within .marquee-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}

@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Facebook, Youtube, Instagram } from 'lucide-react';
-import { site, accreditations } from '@/data/site';
+import { site } from '@/data/site';
 import { footerNav } from '@/data/navigation';
 import { Container } from '@/components/ui/Container';
+import { marks } from '@/components/home/HeroAccreditations';
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -43,7 +44,7 @@ export function Footer() {
               <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-white">{col.heading}</h2>
               <ul className="space-y-2 text-sm">
                 {col.links.map((l) => (
-                  <li key={l.href}>
+                  <li key={l.label}>
                     <Link to={l.href} className="text-white/70 hover:text-white">{l.label}</Link>
                   </li>
                 ))}
@@ -52,13 +53,29 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center gap-3 border-t border-white/10 pt-6">
+        <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center">
           <span className="text-xs uppercase tracking-wider text-white/50">Accredited &amp; recognised:</span>
-          {accreditations.filter((a) => a.verified).map((a) => (
-            <span key={a.name} className="rounded-md border border-white/15 px-2.5 py-1 text-xs font-semibold text-white/90" title={a.fullName}>
-              {a.name}
-            </span>
-          ))}
+          <ul className="flex flex-wrap items-center gap-3">
+            {marks.map((m) => (
+              <li
+                key={m.name}
+                title={m.fullName}
+                className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] py-2 pl-2 pr-4 transition-colors hover:bg-white/[0.08]"
+              >
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-white p-1.5 text-brand-700">
+                  {m.logo ? (
+                    <img src={m.logo} alt={`${m.name} logo`} width={56} height={56} loading="lazy" decoding="async" className="h-full w-full object-contain" />
+                  ) : (
+                    m.emblem
+                  )}
+                </span>
+                <span className="leading-tight">
+                  <span className="block text-sm font-semibold text-white">{m.name}</span>
+                  <span className="block text-xs text-white/60">{m.caption}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="mt-6 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between">

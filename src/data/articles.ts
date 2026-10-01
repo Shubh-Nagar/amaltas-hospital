@@ -7,56 +7,124 @@ const gallery = (folder: string, files: string[], width: number, height: number,
 /**
  * News and event items (kind:'news'/'event') are real Amaltas announcements
  * sourced from the hospital's own news/events pages (amaltashospital.in/news,
- * /events). Article entries below are SAMPLE editorial content (sample:true)
- * — general, non-promotional health-education copy used to demonstrate the
- * article template. It makes NO Amaltas-specific medical claims. Replace
- * with real, reviewed editorial content before launch — see
- * docs/qa/content-verification.md.
+ * /events). Article entries (kind:'article') are the hospital's own blog
+ * posts, written by Amaltas doctors and published at amaltashospital.in/blog;
+ * their cover images are downloaded from those posts.
  */
 export const articles: Article[] = [
   {
-    slug: 'recognising-stroke-fast',
+    slug: 'dry-eye-a-common-problem-we-often-ignore',
     kind: 'article',
-    title: 'Recognising a Stroke Early: The FAST Approach',
-    excerpt: 'Knowing the warning signs of a stroke and acting quickly can protect the brain. Here is a simple way to remember them.',
-    category: 'Neurosciences',
-    author: 'Amaltas Health Desk',
-    publishedAt: '2026-02-10',
-    sample: true,
-    body: `<p>A stroke is a medical emergency. The faster a person receives care, the better the chance of limiting damage to the brain. A widely used memory aid is <strong>FAST</strong>.</p>
-<h2>What FAST stands for</h2>
-<ul><li><strong>F — Face:</strong> Ask the person to smile. Does one side droop?</li><li><strong>A — Arms:</strong> Ask them to raise both arms. Does one drift down?</li><li><strong>S — Speech:</strong> Is speech slurred or hard to understand?</li><li><strong>T — Time:</strong> If you notice any of these signs, note the time and seek emergency care immediately.</li></ul>
-<h2>Why time matters</h2>
-<p>Treatments for stroke are most effective within a limited window after symptoms begin. Do not wait to see if symptoms pass — seek emergency help right away.</p>
-<p><em>This article is general health information and is not a substitute for professional medical advice.</em></p>`,
+    title: 'Dry Eye: A Common Problem We Often Ignore',
+    excerpt: 'Dry eye is one of the most common eye complaints today. Its causes, symptoms, simple prevention habits and treatment options.',
+    category: 'Ophthalmology',
+    author: 'Dr. Vandana Telgote, HOD & Professor, Department of Ophthalmology AIMS, Dewas',
+    publishedAt: '2026-01-23',
+    cover: { src: '/images/articles/dry-eye-a-common-problem-we-often-ignore.jpeg', alt: 'Dry Eye: A Common Problem We Often Ignore', width: 640, height: 360 },
+    body: `<p>Dry eye is one of the most common eye complaints today, especially in an era dominated by screens, air-conditioning, pollution, and hectic lifestyles. It occurs when the eyes do not produce enough tears, or when the tears evaporate too quickly, leading to discomfort and visual disturbance.</p><h2>Common Symptoms</h2><p>People with dry eye may experience:</p><ul><li>Burning or stinging sensation</li><li>Foreign body sensation (“sand in the eyes”)</li><li>Redness and irritation</li><li>Blurred or fluctuating vision</li><li>Excessive watering (a reflex response to dryness)</li></ul><h2>Why Does Dry Eye Happen?</h2><p>Dry eye can be caused by multiple factors such as:</p><ul><li>Prolonged screen use and reduced blinking</li><li>Increasing age</li><li>Hormonal changes</li><li>Contact lens wear</li><li>Air-conditioning, smoke, or pollution</li><li>Certain medications</li><li>Underlying eyelid or systemic conditions</li></ul><h2>Prevention: Small Habits, Big Relief</h2><p>Dry eye can often be prevented or minimized with simple lifestyle changes:</p><ul><li>Follow the 20-20-20 rule while using screens (Looks 20 meters away for 20 seconds every 20 minutes.)</li><li>Blink consciously during prolonged near work</li><li>Maintain good eyelid hygiene</li><li>Stay hydrated and maintain a balanced diet rich in omega-3 fatty acids</li><li>Protect your eyes from wind, dust, and dry environments</li></ul><h2>Treatment Options</h2><p>Treatment depends on the severity and cause:</p><ul><li>Lubricating eye drops (artificial tears) are the mainstay of treatment</li><li>Gel or ointments for night-time relief in severe cases</li><li>Warm compresses and lid hygiene for associated eyelid issues</li><li>Prescription medications in chronic or inflammatory dry eye</li><li>Lifestyle modification remains a crucial long-term strategy</li></ul><h2>Final Thoughts</h2><p>Dry eye may seem like a minor issue, but if left untreated, it can significantly affect quality of life and vision. Early recognition, preventive care, and timely treatment can keep your eyes comfortable and healthy.</p><p>Your eyes work hard for you every day—don’t forget to care for them.</p>`,
   },
   {
-    slug: 'heart-healthy-habits',
+    slug: 'urology-urologist-deal-with-diseases-of-urinary-tract',
     kind: 'article',
-    title: 'Five Everyday Habits That Support Heart Health',
-    excerpt: 'Small, consistent choices add up. A look at everyday habits that support a healthy heart.',
-    category: 'Cardiology',
-    author: 'Amaltas Health Desk',
-    publishedAt: '2026-01-22',
-    sample: true,
-    body: `<p>Heart health is shaped by everyday choices as much as by medical care. A few consistent habits can make a meaningful difference over time.</p>
-<h2>Habits to build</h2>
-<ul><li>Move regularly — aim for consistent physical activity across the week.</li><li>Choose balanced meals with more whole foods and less added salt and sugar.</li><li>Avoid tobacco and limit alcohol.</li><li>Prioritise sleep and manage stress.</li><li>Keep up regular check-ups, especially if you have blood pressure or diabetes.</li></ul>
-<p><em>Speak with a doctor before making significant changes, particularly if you have an existing heart condition.</em></p>`,
+    title: 'Urology / Urologist deal with diseases of urinary tract',
+    excerpt: 'Common urological symptoms, the concerns that arise at each age, and when you should see a urologist.',
+    category: 'Urology',
+    author: 'Dr. Devesh Bansal, Urologist',
+    publishedAt: '2025-11-27',
+    cover: { src: '/images/articles/urology-urologist-deal-with-diseases-of-urinary-tract.jpg', alt: 'Urology / Urologist deal with diseases of urinary tract', width: 1200, height: 800 },
+    body: `<p>Urologists deal with diseases of the urinary tract (kidney, ureter, bladder, urethra) and the male reproductive system (prostate, testis, penis).</p><h2>Common Signs &amp; Symptoms of Urological Issues</h2><ul><li>Pain or Burning during Urination</li><li>Blood in Urine</li><li>Frequent or Urgent Need to Urinate</li><li>Difficulty Starting Urination or Weak Urine Stream</li><li>Leakage or Incontinence</li><li>Lower Abdominal, Pelvic, or Flank Pain</li><li>Pain or Swelling in Testicles</li><li>Erectile Dysfunction</li><li>Fever with Urinary Symptoms (Possible Urinary Tract Infection)</li></ul><h2>Urological Concerns by Age Group</h2><h3>Children</h3><ul><li>Bed-wetting (Enuresis)</li><li>Congenital Urinary Tract Problems</li><li>Urinary Infection</li></ul><h3>Young Adult (20–40 years)</h3><ul><li>Kidney Stones</li><li>Urinary Infections</li><li>Fertility Issues / Testicular Cancer</li><li>Erectile Dysfunction due to Stress or Lifestyle</li></ul><h3>Middle Age (40–60 years)</h3><ul><li>Enlarged Prostate (BPH) – Often Begins</li><li>More Frequent Kidney Stones</li><li>Increased Risk of Erectile Dysfunction</li><li>Prostatitis</li><li>Phimosis</li><li>Paraphimosis</li></ul><h3>Older Adult (60+ years)</h3><ul><li>Prostate Cancer Risk Increases Significantly</li><li>Bladder Control Issues / Incontinence</li><li>Chronic Kidney Disease</li><li>Recurrent UTI (Urinary Tract Infection)</li></ul><h2>When to See a Urologist</h2><p>Seek medical help if you experience:</p><ul><li>Blood in Urine (Hematuria)</li><li>Persistent Pain in Kidney or Bladder</li><li>Difficulty Urinating or Urinary Retention</li><li>Sexual Dysfunction or Infertility</li><li>Recurrent Urinary Infection</li></ul>`,
   },
   {
-    slug: 'preparing-for-first-consultation',
+    slug: 'quit-tobacco-prevent-cancer',
     kind: 'article',
-    title: 'How to Prepare for Your First Hospital Consultation',
-    excerpt: 'A short checklist to help you get the most out of a first visit to a specialist.',
-    category: 'Patient Guide',
-    author: 'Amaltas Health Desk',
-    publishedAt: '2026-03-01',
-    sample: true,
-    body: `<p>A little preparation helps your consultation go smoothly and ensures your doctor has the information they need.</p>
-<h2>Bring with you</h2>
-<ul><li>A list of your current medicines and doses.</li><li>Previous reports, scans and discharge summaries.</li><li>A note of your main symptoms and when they started.</li><li>Any questions you want to ask.</li></ul>
-<p>If you are visiting for someone else, bring their documents and, where possible, come with them.</p>`,
+    title: 'Quit Tobacco – Prevent Cancer',
+    excerpt: 'Most oral and head & neck cancers are linked to tobacco. Simple tips, and why early detection is key to treatment.',
+    category: 'Oncology',
+    author: 'Dr. Ankit Gupta, Consultant Maxillofacial Head & Neck Cancer Surgeon, Amaltas Hospital, Dewas',
+    publishedAt: '2025-11-22',
+    cover: { src: '/images/articles/quit-tobacco-prevent-cancer.jpg', alt: 'Quit Tobacco – Prevent Cancer', width: 1024, height: 640 },
+    body: `<p>Most of the oral cancer of head &amp; neck cancer caused by the consumption of tobacco (smoke/smokeless). Who diagnosed positive for cancer, we provide comprehensive treatment which includes surgical resection of tumor or disease &amp; reconstruction of resulted part with flap &amp; also provide chemotherapy for advanced stage cancer patients or palliative care patients.</p><h2>Small Tips</h2><ul><li>Live healthy life free of ill habits</li><li>Eat healthy diet</li><li>Quit tobacco &amp; alcohol</li><li>Do regular check-up 6 monthly</li></ul><p>Early detection of cancer is key of treatment. At Amaltas Hospital we are running Tobacco Cessation Center to help those who are not able to quit the habit by themselves.</p><p>Apart from tobacco cessation we are running cancer unit also for those.</p><p>If you notice any abnormal ulcer or lump don’t ignore it &amp; get those problems checked by specialist at Amaltas Hospital.</p>`,
+  },
+  {
+    slug: 'department-of-ophthalmology',
+    kind: 'article',
+    title: 'Department of ophthalmology',
+    excerpt: 'What the Department of Ophthalmology treats, from cataract and retinal disease to glaucoma, and the tests it performs.',
+    category: 'Ophthalmology',
+    author: 'Dr. Deepshikha Solanki, MS (Ophthalmology), Professor, Dept. of Ophthalmology, Amaltas Hospital, Dewas',
+    publishedAt: '2025-11-18',
+    cover: { src: '/images/articles/department-of-ophthalmology.jpeg', alt: 'Department of ophthalmology', width: 1280, height: 720 },
+    body: `<p>Ophthalmology department of amaltas institute of medical science deals with the diagnosis, treatment, and surgery of eye diseases and disorders.</p><p>Here we deal with Cataract, retinal disease(including diabetic retinopathy and other types of retinopathies glaucoma, corneal disease, eyelid and orbital disorders, uveitis, strabismus and disorders of the ocular muscles, ocular neoplasms (cancers and benign eye tumors), neuro-ophthalmologic disorders (including disorders of the optic nerve)</p><p>We perform various tests like Ophthalmoscopy, visual field test, optical coherence tomography</p><p>Automated perimetry.</p>`,
+  },
+  {
+    slug: 'physiotherapy-the-power-of-movement',
+    kind: 'article',
+    title: 'Physiotherapy – The Power of Movement',
+    excerpt: 'How physiotherapy helps the body heal through movement: the problems it treats and simple everyday tips.',
+    category: 'Physiotherapy',
+    author: 'Dr. Neha Gaur, Head of Physiotherapy Department, Amaltas Hospital, Dewas',
+    publishedAt: '2025-11-17',
+    cover: { src: '/images/articles/physiotherapy-the-power-of-movement.jpeg', alt: 'Physiotherapy – The Power of Movement', width: 980, height: 980 },
+    body: `<h2>फिजियोथेरेपी – चलने से इलाज</h2><p>Physiotherapy helps your body heal naturally through movement and exercise. At Amaltas Hospital, Dewas, our aim is to make patients healthy, active, and pain-free.</p><p>Many people suffer from back pain, joint pain, or stiffness due to long sitting hours or lack of exercise. Physiotherapy reduces pain, improves strength, and restores movement.</p><h2>Common Problems Treated</h2><ul><li>Back and neck pain</li><li>Joint stiffness and arthritis</li><li>Sports or accidental injuries</li><li>Post-surgery recovery</li><li>Paralysis or nerve weakness</li></ul><h2>Simple Tips</h2><ul><li>Sit and stand with correct posture</li><li>Do light stretching daily</li><li>Don’t sit for too long — take small walks</li><li>Follow your physiotherapist’s advice regularly</li></ul><p>Early physiotherapy gives faster and better results. If you feel pain or movement difficulty, don’t ignore it — get professional help. At Amaltas Hospital, under Dr. Neha Gaur’s guidance, we provide safe and personalized physiotherapy care for all ages.</p><p><strong>Stay Active • Stay Healthy • Stay Pain-Free!</strong></p>`,
+  },
+  {
+    slug: 'de-addiction-meaning-and-importance',
+    kind: 'article',
+    title: 'De-addiction: Meaning and Importance',
+    excerpt: 'What de-addiction means, how treatment and counselling help, and why recovery is a continuous process.',
+    category: 'Psychiatry',
+    author: 'Dr. Ashutosh Bhatele, Assistant Professor, Department of Psychiatry, Amaltas Medical College Dewas',
+    publishedAt: '2025-11-15',
+    cover: { src: '/images/articles/de-addiction-meaning-and-importance.jpeg', alt: 'De-addiction: Meaning and Importance', width: 1280, height: 720 },
+    body: `<p>De-addiction means freedom from addiction. It is a process that helps a person overcome dependence on a substance (such as alcohol or drugs) or an addictive activity (such as gambling or gaming). De-addiction typically involves medical treatment, counselling, and support groups to help individuals gain control over their addiction and lead a healthier, better life.</p><h2>Key Aspects of De-addiction</h2><h3>1. Freedom from Addiction</h3><p>De-addiction aims to free a person from any type of addiction—whether it is related to substances like drugs or alcohol, or behavioural addictions such as gambling or excessive gaming.</p><h3>2. Medical Treatment and Counselling</h3><p>The de-addiction process often includes medications, individual and group therapy, psychological counselling, and life-skills training. These interventions help patients manage withdrawal symptoms, understand their triggers, and adopt healthier habits.</p><h3>3. Support from Rehabilitation Centres</h3><p>Rehabilitation centres play a crucial role in recovery. They provide a structured environment where trained professionals support patients in healing physically, mentally, and emotionally.</p><h3>4. A Continuous Recovery Process</h3><p>De-addiction is not a one-time event—it is a long, ongoing journey. It requires consistent support, motivation, and lifestyle changes to maintain long-term recovery.</p><h3>5. Covers Various Types of Addictions</h3><p>De-addiction is not limited to alcohol or drugs. It is equally applicable to behavioural addictions such as gambling, online gaming, or any compulsive activity that affects a person’s well-being.</p>`,
+  },
+  {
+    slug: 'ayurveda-day-airport-health-camp-2026',
+    kind: 'event',
+    title: 'Free Health Check-up Camp at Indore Airport on Ayurveda Day',
+    excerpt: 'Under the Yatri Seva Abhiyaan, Amaltas Institute of Medical Sciences held a free health check-up camp for passengers, stakeholders and staff at Devi Ahilyabai Holkar Airport, Indore.',
+    category: 'Event',
+    publishedAt: '2026-09-23',
+    eventDate: '2026-09-23',
+    eventLocation: 'Devi Ahilyabai Holkar Airport, Indore',
+    cover: { src: '/images/events/gallery/airport-camp/01.jpeg', alt: 'Amaltas doctors conducting free health check-ups at Devi Ahilyabai Holkar Airport, Indore', width: 1600, height: 1200 },
+    gallery: [
+      { src: '/images/events/gallery/airport-camp/02.jpeg', alt: 'Health check-up camp at Indore Airport on Ayurveda Day 2026', width: 1600, height: 1200 },
+      { src: '/images/events/gallery/airport-camp/03.jpeg', alt: 'Health check-up camp at Indore Airport on Ayurveda Day 2026', width: 1280, height: 960 },
+    ],
+    body: `<p>On the occasion of Ayurveda Day 2026, under the Yatri Seva Abhiyaan, Amaltas Institute of Medical Sciences organised a free health check-up camp at Devi Ahilyabai Holkar Airport, Indore. Passengers, stakeholders and airport staff received health check-ups, medical consultation and guidance.</p>
+<p lang="hi">Ayurveda Day 2026 के अवसर पर Yatri Seva Abhiyaan के अंतर्गत Amaltas Institute of Medical Sciences द्वारा Devi Ahilyabai Holkar Airport, Indore में निःशुल्क स्वास्थ्य जांच शिविर का आयोजन किया गया।</p>
+<p lang="hi">इस शिविर में यात्रियों, स्टेकहोल्डर्स एवं एयरपोर्ट स्टाफ को स्वास्थ्य जांच, चिकित्सकीय परामर्श एवं स्वास्थ्य संबंधी आवश्यक मार्गदर्शन प्रदान किया गया।</p>
+<p lang="hi">Amaltas – स्वास्थ्य सेवा के साथ, समाज की सेवा के लिए।</p>`,
+  },
+  {
+    slug: 'union-minister-visit-medical-inspection-room-2026',
+    kind: 'event',
+    title: 'Union Minister of State Shri Ramdas Athawale Visits the Amaltas Medical Inspection Room',
+    excerpt: "Hon'ble Union Minister of State Shri Ramdas Athawale visited the Amaltas Institute of Medical Sciences Medical Inspection Room and appreciated the hospital's efforts to improve medical facilities.",
+    category: 'Event',
+    publishedAt: '2026-09-09',
+    eventDate: '2026-09-09',
+    eventLocation: 'Medical Inspection Room, Indore Airport',
+    cover: { src: '/images/events/gallery/minister-visit/01.jpeg', alt: 'Union Minister of State Shri Ramdas Athawale with the Amaltas team at the Medical Inspection Room, Indore Airport', width: 1440, height: 1422 },
+    body: `<p>Hon'ble Union Minister of State Shri Ramdas Athawale paid a gracious visit to the Medical Inspection Room of Amaltas Institute of Medical Sciences. The Minister appreciated the efforts being made to improve the medical facilities and health services of Amaltas Hospital. His guidance and encouragement are a source of inspiration for us.</p>
+<p lang="hi">माननीय केंद्रीय राज्य मंत्री श्री रामदास अठावले जी का अमलतास इंस्टीट्यूट ऑफ मेडिकल साइंसेज के ‘मेडिकल इंस्पेक्शन रूम’ में गरिमामयी आगमन हुआ।</p>
+<p lang="hi">माननीय मंत्री जी ने अमलतास अस्पताल की चिकित्सा सुविधाओं एवं स्वास्थ्य सेवाओं को बेहतर बनाने की दिशा में किए जा रहे प्रयासों की सराहना की।</p>
+<p lang="hi">उनका मार्गदर्शन एवं प्रोत्साहन हमारे लिए प्रेरणास्रोत है।</p>`,
+  },
+  {
+    slug: 'amaltas-medical-inspection-room-indore-airport',
+    kind: 'news',
+    title: 'Amaltas Medical Inspection Room at Indore Airport',
+    excerpt: 'The Amaltas Medical Inspection Room at Indore Airport provides passengers with prompt, quality first aid and medical assistance during travel.',
+    category: 'Hospital News',
+    publishedAt: '2026-09-15',
+    cover: { src: '/images/events/gallery/airport-medical-room/04.jpeg', alt: 'An Amaltas doctor consulting with a passenger at the Medical Inspection Room, Indore Airport', width: 1170, height: 1170 },
+    gallery: gallery('airport-medical-room', ['01.jpeg', '02.jpeg', '03.jpeg'], 1170, 1170, 'Amaltas Medical Inspection Room, Indore Airport'),
+    body: `<p>The Amaltas Medical Inspection Room at Indore Airport is always ready to provide passengers with immediate, quality first-aid services. In case of any health problem during travel, passengers receive timely first aid and the medical assistance they need.</p>
+<p lang="hi">इंदौर एयरपोर्ट पर स्थित अमलतास मेडिकल इंस्पेक्शन रूम यात्रियों की स्वास्थ्य संबंधी आवश्यकताओं के लिए तत्काल एवं गुणवत्तापूर्ण प्राथमिक चिकित्सा सेवाएँ उपलब्ध कराने के लिए सदैव तत्पर है।</p>
+<p lang="hi">यात्रा के दौरान किसी भी स्वास्थ्य संबंधी परेशानी की स्थिति में यात्रियों को समय पर प्राथमिक उपचार एवं आवश्यक चिकित्सकीय सहायता प्रदान की जाती है।</p>
+<p lang="hi">आपकी सुरक्षित यात्रा, हमारी जिम्मेदारी। अमलतास — स्वास्थ्य सेवा में सदैव आपके साथ।</p>`,
   },
   {
     slug: 'pediatrics-ug-quiz-competition-2026',

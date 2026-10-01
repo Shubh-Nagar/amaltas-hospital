@@ -1,5 +1,5 @@
 /**
- * Accreditation marks shown in the hero.
+ * Accreditation marks shown in the hero (and reused in the footer).
  *
  * These are in-house emblem marks, not the issuing bodies' official logos — drop
  * the official artwork into `public/images/accreditations/` and give an entry a
@@ -9,7 +9,7 @@
  * still need sign-off — see docs/qa/content-verification.md.
  */
 
-type Mark = {
+export type Mark = {
   /** Short name shown in bold. */
   name: string;
   /** One-line qualifier under the name. */
@@ -32,7 +32,7 @@ function Seal({ children }: { children: React.ReactNode }) {
   );
 }
 
-const marks: Mark[] = [
+export const marks: Mark[] = [
   {
     name: 'NABH',
     caption: 'Accredited hospital',

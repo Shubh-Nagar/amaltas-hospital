@@ -93,6 +93,7 @@ export const primaryNav: NavItem[] = [
         heading: 'Plan your visit',
         links: [
           { label: 'Book an Appointment', href: '/patients/appointment' },
+          { label: 'Health Packages', href: '/health-packages' },
           { label: 'Emergency', href: '/patients/emergency' },
           { label: 'Patient Guide', href: '/patients' },
         ],
@@ -140,7 +141,7 @@ export const footerNav: NavColumn[] = [
       { label: 'Book Appointment', href: '/patients/appointment' },
       { label: 'Patient Guide', href: '/patients' },
       { label: 'Facilities', href: '/facilities' },
-      { label: 'Health Packages', href: '/patients' },
+      { label: 'Health Packages', href: '/health-packages' },
     ],
   },
   {

@@ -20,6 +20,7 @@ const ServicePage = lazy(() => import('@/pages/ServicePage'));
 const FacilitiesPage = lazy(() => import('@/pages/FacilitiesPage'));
 const FacilityPage = lazy(() => import('@/pages/FacilityPage'));
 const PatientsPage = lazy(() => import('@/pages/PatientsPage'));
+const HealthPackagesPage = lazy(() => import('@/pages/HealthPackagesPage'));
 const AppointmentPage = lazy(() => import('@/pages/AppointmentPage'));
 const EmergencyPage = lazy(() => import('@/pages/EmergencyPage'));
 const ArticlesPage = lazy(() => import('@/pages/ArticlesPage'));
@@ -57,6 +58,8 @@ export const router = createBrowserRouter([
       { path: 'facilities/:slug', element: <FacilityPage /> },
 
       { path: 'patients', element: <PatientsPage /> },
+
+      { path: 'health-packages', element: <HealthPackagesPage /> },
       { path: 'patients/appointment', element: <AppointmentPage /> },
       { path: 'patients/emergency', element: <EmergencyPage /> },
 
