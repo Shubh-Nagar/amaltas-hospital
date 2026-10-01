@@ -20,6 +20,25 @@ export interface NavItem {
 
 export const primaryNav: NavItem[] = [
   {
+    label: 'About',
+    href: '/about',
+    columns: [
+      {
+        heading: 'Amaltas',
+        links: [
+          { label: 'About Amaltas', href: '/about' },
+          { label: "Chairman's Message", href: '/about/chairman-message' },
+          { label: "Medical Superintendent's Message", href: '/about/medical-superintendent-message' },
+          { label: "COO's Message", href: '/about/coo-message' },
+          { label: 'Why Choose Amaltas', href: '/about/why-choose-amaltas' },
+          { label: 'Accreditations', href: '/about#accreditations' },
+          { label: 'Facilities', href: '/facilities' },
+          { label: 'Gallery', href: '/gallery' },
+        ],
+      },
+    ],
+  },
+  {
     label: 'Find Care',
     href: '/specialties',
     columns: [
@@ -84,23 +103,6 @@ export const primaryNav: NavItem[] = [
           { label: 'Facilities', href: '/facilities' },
           { label: 'Contact', href: '/contact' },
           { label: 'Directions', href: '/contact#directions' },
-        ],
-      },
-    ],
-  },
-  {
-    label: 'About',
-    href: '/about',
-    columns: [
-      {
-        heading: 'Amaltas',
-        links: [
-          { label: 'About Amaltas', href: '/about' },
-          { label: "Chairman's Message", href: '/about/chairman-message' },
-          { label: 'Why Choose Amaltas', href: '/about/why-choose-amaltas' },
-          { label: 'Accreditations', href: '/about#accreditations' },
-          { label: 'Facilities', href: '/facilities' },
-          { label: 'Gallery', href: '/gallery' },
         ],
       },
     ],

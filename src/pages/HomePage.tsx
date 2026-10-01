@@ -4,6 +4,7 @@ import { QuickActions } from '@/components/home/QuickActions';
 import { WhatBringsYou, CentresOfExcellence } from '@/components/home/CareExplorer';
 import { TrustStats, WhyAmaltas, AdvancedTech } from '@/components/home/TrustSections';
 import { FeaturedDoctors, FacilitiesShowcase, CampusShowcase } from '@/components/home/PeopleAndPlace';
+import { Leadership } from '@/components/home/Leadership';
 import { PhotoMosaic } from '@/components/home/PhotoMosaic';
 import { PatientStories, HealthInsights, AccreditationsStrip, LocationSection, FinalCta } from '@/components/home/ClosingSections';
 import { site } from '@/data/site';
@@ -22,6 +23,7 @@ export default function HomePage() {
       <WhatBringsYou />
       <CentresOfExcellence />
       <TrustStats />
+      <Leadership />
       <FeaturedDoctors />
       <AdvancedTech />
       <WhyAmaltas />

@@ -60,8 +60,13 @@ export function MegaMenu({ tone = 'dark' }: { tone?: 'dark' | 'light' }) {
                     transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] as const }}
                     className="absolute left-0 top-full z-50 pt-3"
                   >
-                    <div className="w-[min(38rem,90vw)] rounded-2xl border border-line bg-surface p-5 shadow-card-hover">
-                      <div className="grid grid-cols-2 gap-x-6 gap-y-1">
+                    <div
+                      className={cn(
+                        'rounded-2xl border border-line bg-surface p-5 shadow-card-hover',
+                        item.columns!.length > 1 ? 'w-[min(38rem,90vw)]' : 'w-72',
+                      )}
+                    >
+                      <div className={cn('grid gap-x-6 gap-y-1', item.columns!.length > 1 ? 'grid-cols-2' : 'grid-cols-1')}>
                         {item.columns!.map((col) => (
                           <div key={col.heading}>
                             <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-brand-500">{col.heading}</p>

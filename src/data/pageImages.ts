@@ -18,6 +18,7 @@ const g = (file: string): PageImage => ({ src: `/images/gallery/${file}` });
 /** Top-level pages, keyed by route path. */
 export const pageImages = {
   about: g('campus-exterior-front.webp'),
+  administration: g('department-of-medicine-team.webp'),
   academics: g('department-of-medicine-team.webp'),
   appointment: g('opd-registration.webp'),
   chairman: g('campus-exterior-front.webp'),
