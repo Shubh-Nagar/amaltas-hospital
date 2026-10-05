@@ -41,8 +41,7 @@ export const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: 'about', element: <AboutPage /> },
       { path: 'about/chairman-message', element: <ChairmanMessagePage /> },
-      { path: 'about/medical-superintendent-message', element: <LeaderMessagePage slug="medical-superintendent" /> },
-      { path: 'about/coo-message', element: <LeaderMessagePage slug="coo" /> },
+      { path: 'about/dean-message', element: <LeaderMessagePage slug="dean" /> },
       { path: 'about/why-choose-amaltas', element: <WhyChooseAmaltasPage /> },
 
       { path: 'doctors', element: <DoctorsPage /> },

@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, Expand, MessageSquareQuote, Play, Quote, Star, Youtube } from 'lucide-react';
+import { useState } from 'react';
+import { Expand, Play, Quote, Star, Youtube } from 'lucide-react';
 import { patientStories, youtubeThumb, type PatientStory } from '@/data/patientStories';
 import { patientReviews, happyPatientPhotos, type PatientReview } from '@/data/patientReviews';
 import { site } from '@/data/site';
@@ -9,11 +9,8 @@ import { Button } from '@/components/ui/Button';
 import { Marquee } from '@/components/ui/Marquee';
 import { VideoModal } from '@/components/ui/VideoModal';
 import { Lightbox } from '@/components/ui/Lightbox';
-import { cn } from '@/lib/utils';
 
 const reviewPhotos = patientReviews.map((r) => ({ src: r.image, alt: `Google review by ${r.name}`, width: 1080, height: 1080 }));
-const half = Math.ceil(patientReviews.length / 2);
-const rows = [patientReviews.slice(0, half), patientReviews.slice(half)];
 
 function ReviewCard({ review, copy, onOpen }: { review: PatientReview; copy: boolean; onOpen: () => void }) {
   return (
@@ -52,73 +49,37 @@ function ReviewCard({ review, copy, onOpen }: { review: PatientReview; copy: boo
   );
 }
 
-function VideoStories({ onPlay }: { onPlay: (s: PatientStory) => void }) {
-  const track = useRef<HTMLUListElement>(null);
-  const scroll = (dir: 1 | -1) => {
-    const el = track.current;
-    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.85, behavior: 'smooth' });
-  };
+function VideoCard({ story, copy, onPlay }: { story: PatientStory; copy: boolean; onPlay: () => void }) {
   return (
-    <Container>
-      <div className="mb-4 flex justify-end gap-2">
-        <button type="button" onClick={() => scroll(-1)} aria-label="Previous videos" className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 transition-colors hover:bg-white hover:text-brand-900">
-          <ChevronLeft className="h-5 w-5" aria-hidden />
-        </button>
-        <button type="button" onClick={() => scroll(1)} aria-label="Next videos" className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 transition-colors hover:bg-white hover:text-brand-900">
-          <ChevronRight className="h-5 w-5" aria-hidden />
-        </button>
-      </div>
-      <ul ref={track} className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {patientStories.map((s) => (
-          <li key={s.youtubeId} className="w-[78%] shrink-0 snap-start sm:w-[46%] lg:w-[31%] xl:w-[24%]">
-            <button type="button" onClick={() => onPlay(s)} className="group block w-full text-left focus-visible:outline-none" aria-label={`Play story: ${s.title}`}>
-              <span className="relative block aspect-video overflow-hidden rounded-2xl bg-brand-900 ring-1 ring-white/10 group-focus-visible:ring-2 group-focus-visible:ring-accent-400">
-                <img src={youtubeThumb(s.youtubeId)} alt="" loading="lazy" className="h-full w-full scale-[1.34] object-cover transition-transform duration-700 group-hover:scale-[1.42]" />
-                <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <span className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-emergency text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
-                  <Play className="ml-0.5 h-6 w-6 fill-current" aria-hidden />
-                </span>
-                <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-brand-800">{s.tag}</span>
-              </span>
-              <span className="mt-3 line-clamp-2 block font-semibold leading-snug text-white group-hover:text-accent-400">{s.title}</span>
-              <span lang="hi" className="mt-1 line-clamp-1 block text-xs text-white/55">{s.titleHi}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-4 flex justify-center">
-        <Button href={site.social.youtube} variant="outline" className="border-white/30 text-white hover:bg-white/10">
-          <Youtube className="h-4 w-4" aria-hidden /> View all on YouTube
-        </Button>
-      </div>
-    </Container>
+    <button
+      type="button"
+      onClick={onPlay}
+      tabIndex={copy ? -1 : undefined}
+      className="group block w-[19rem] text-left focus-visible:outline-none sm:w-[22rem]"
+      aria-label={`Play story: ${story.title}`}
+    >
+      <span className="relative block aspect-video overflow-hidden rounded-2xl bg-brand-900 ring-1 ring-white/10 group-focus-visible:ring-2 group-focus-visible:ring-accent-400">
+        <img src={youtubeThumb(story.youtubeId)} alt="" loading="lazy" className="h-full w-full scale-[1.34] object-cover transition-transform duration-700 group-hover:scale-[1.42]" />
+        <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        <span className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-emergency text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
+          <Play className="ml-0.5 h-6 w-6 fill-current" aria-hidden />
+        </span>
+        <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-brand-800">{story.tag}</span>
+      </span>
+      <span className="mt-3 line-clamp-2 block font-semibold leading-snug text-white group-hover:text-accent-400">{story.title}</span>
+      <span lang="hi" className="mt-1 line-clamp-1 block text-xs text-white/55">{story.titleHi}</span>
+    </button>
   );
 }
 
 /**
- * Patient's Story — real Google reviews from patients (transcribed from the
- * hospital's "Happy Patient Review" cards) on two scrolling rows, and patient
- * video stories from the hospital's YouTube channel.
+ * Patient's Story — two scrolling rows: real Google reviews from patients
+ * (transcribed from the hospital's "Happy Patient Review" cards) on top, and
+ * patient video stories from the hospital's YouTube channel below.
  */
 export function PatientStoryVideos() {
-  const [tab, setTab] = useState<'reviews' | 'videos'>('reviews');
   const [playing, setPlaying] = useState<PatientStory | null>(null);
   const [photo, setPhoto] = useState<number | null>(null);
-
-  const tabBtn = (id: typeof tab, label: string, Icon: typeof Play) => (
-    <button
-      type="button"
-      role="tab"
-      aria-selected={tab === id}
-      onClick={() => setTab(id)}
-      className={cn(
-        'inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors',
-        tab === id ? 'bg-accent-400 text-brand-950' : 'text-white/80 hover:bg-white/10 hover:text-white',
-      )}
-    >
-      <Icon className="h-4 w-4" aria-hidden /> {label}
-    </button>
-  );
 
   return (
     <Section bleed className="relative isolate overflow-hidden bg-brand-950 text-white" ariaLabel="Patient stories">
@@ -148,31 +109,34 @@ export function PatientStoryVideos() {
               <p className="text-sm text-white/70">Reviews and recovery stories shared by our patients and their families.</p>
             </div>
           </div>
-          <div role="tablist" aria-label="Patient stories" className="flex rounded-full border border-white/15 p-1">
-            {tabBtn('reviews', 'Patient reviews', MessageSquareQuote)}
-            {tabBtn('videos', 'Video stories', Play)}
-          </div>
         </div>
       </Container>
 
-      <div className="mt-10">
-        {tab === 'reviews' ? (
-          <div className="grid gap-4">
-            {rows.map((row, r) => (
-              <Marquee
-                key={r}
-                items={row}
-                getKey={(rv) => rv.name}
-                duration={70}
-                reverse={r === 0}
-                render={(rv, copy) => <ReviewCard review={rv} copy={copy} onOpen={() => setPhoto(patientReviews.indexOf(rv))} />}
-              />
-            ))}
-          </div>
-        ) : (
-          <VideoStories onPlay={setPlaying} />
-        )}
+      <div className="mt-10 grid gap-6">
+        {/* Row 1 — written reviews */}
+        <Marquee
+          items={patientReviews}
+          getKey={(rv) => rv.name}
+          duration={90}
+          reverse
+          render={(rv, copy) => <ReviewCard review={rv} copy={copy} onOpen={() => setPhoto(patientReviews.indexOf(rv))} />}
+        />
+        {/* Row 2 — video stories, scrolling the other way */}
+        <Marquee
+          items={patientStories}
+          getKey={(s) => s.youtubeId}
+          duration={80}
+          render={(s, copy) => <VideoCard story={s} copy={copy} onPlay={() => setPlaying(s)} />}
+        />
       </div>
+
+      <Container>
+        <div className="mt-8 flex justify-center">
+          <Button href={site.social.youtube} variant="outline" className="border-white/30 text-white hover:bg-white/10">
+            <Youtube className="h-4 w-4" aria-hidden /> View all on YouTube
+          </Button>
+        </div>
+      </Container>
 
       <VideoModal youtubeId={playing?.youtubeId ?? null} title={playing?.title} onClose={() => setPlaying(null)} />
       <Lightbox photos={reviewPhotos} index={photo} onClose={() => setPhoto(null)} onChange={setPhoto} />

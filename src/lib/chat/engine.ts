@@ -6,10 +6,12 @@
  * "not on our website" plus the right contact route — never a guess.
  */
 import { buildSearchIndex, searchIndex } from '@/hooks/useSearchIndex';
-import type { Doctor, Facility, Service, Specialty } from '@/types';
+import { brochureCareFor, brochureContact, brochureIcus, brochureMediclaim, brochureSchemes, brochureTests } from '@/data/brochure';
+import type { Bilingual, BrochureProgramme, BrochureSection, BrochureTest, Doctor, Facility, Service, Specialty } from '@/types';
 import { copy, facilityHi, serviceHi, specialtyHi, type Copy } from './copy';
 import {
   articleListItems,
+  brochureProgrammes,
   clean,
   cityOfficeAddress,
   doctorBySlug,
@@ -20,14 +22,18 @@ import {
   facilityBySlug,
   findDoctors,
   findFacility,
+  findProgramme,
   findRoleTopic,
   findService,
   findSpecialty,
+  findTests,
   guideArticle,
   hospitalAddress,
   latestUpdates,
   mapsHref,
   pageFacts,
+  programmeBySlug,
+  roleTopics,
   serviceBySlug,
   services,
   shortName,
@@ -45,7 +51,7 @@ import type { BotReply, ChatContext, ChatLink, Lang, LangMode, ReplyBlock } from
 
 type Intent =
   | 'emergency' | 'advice' | 'appointment' | 'hours' | 'insurance' | 'cost' | 'packages' | 'contact'
-  | 'guide' | 'accreditation' | 'academics' | 'news' | 'doctors' | 'specialties' | 'services'
+  | 'tests' | 'guide' | 'accreditation' | 'academics' | 'news' | 'doctors' | 'specialties' | 'services'
   | 'facilities' | 'more' | 'about' | 'whoami' | 'thanks' | 'bye' | 'ack' | 'greeting';
 
 /** Declaration order doubles as tie-break priority. */
@@ -54,10 +60,11 @@ const INTENT_KEYWORDS: [Intent, string[]][] = [
   ['advice', ['which medicine', 'what medicine', 'which tablet', 'should i take', 'can i take', 'dose', 'dosage', 'prescribe', 'prescription for', 'is it serious', 'what should i do', 'diagnose', 'diagnosis', 'cure for', 'home remedy', 'kaunsi dawa', 'kaun si dawa', 'konsi dawa', 'kaunsi dawai', 'kaun si dawai', 'konsi dawai', 'kya dawa', 'kya dawai', 'dawai batao', 'dawa batao', 'dawai bataiye', 'kya karu', 'kya karun', 'kya khaun', 'कौन सी दवा', 'कौनसी दवा', 'कौन सी दवाई', 'दवा बताओ', 'दवा बताइए', 'दवाई बताइए', 'क्या करूं', 'क्या खाऊं', 'खुराक']],
   ['hours', ['visiting hours', 'visiting time', 'visit time', 'visiting', 'visitor*', 'timing*', 'time', 'hours', 'open', 'opening', 'closing', 'khulta', 'khulti', 'samay', 'milne ka samay', 'मिलने का समय', 'समय', 'टाइम*', 'खुल*', 'विजिट*', 'घंटे']],
   ['appointment', ['appointment*', 'appoint*', 'book', 'booking', 'schedule', 'consult', 'consultation', 'opd', 'milna hai', 'dikhana', 'dikhane', 'अपॉइंटमेंट', 'अपोइंटमेंट', 'अपाइंटमेंट', 'बुक*', 'परामर्श', 'दिखाना', 'दिखाने', 'मिलना है']],
-  ['insurance', ['insurance', 'insured', 'cashless', 'tpa', 'mediclaim', 'ayushman', 'pmjay', 'pm jay', 'scheme', 'schemes', 'billing', 'bill', 'bima', 'बीमा', 'इंश्योरेंस', 'कैशलेस', 'आयुष्मान', 'बिल', 'बिलिंग', 'योजना']],
+  ['insurance', ['insurance', 'insured', 'cashless', 'tpa', 'mediclaim', 'ayushman', 'pmjay', 'pm jay', 'scheme', 'schemes', 'yojana', 'esic', 'esi', 'echs', 'cghs', 'rbsk', 'janani', 'police swasthya', 'कर्मचारी राज्य बीमा', 'ईएसआईसी', 'जननी', 'मेडिक्लेम', 'मेडीक्लेम', 'billing', 'bill', 'bima', 'बीमा', 'इंश्योरेंस', 'कैशलेस', 'आयुष्मान', 'बिल', 'बिलिंग', 'योजना']],
   ['cost', ['cost', 'costs', 'charge', 'charges', 'fee', 'fees', 'price', 'prices', 'pricing', 'kharcha', 'kharch', 'paisa', 'paise', 'kitna lagega', 'payment', 'खर्च*', 'फीस', 'शुल्क', 'कीमत', 'पैसे', 'भुगतान', 'चार्ज']],
   ['packages', ['health package*', 'health check*', 'checkup', 'check up', 'full body', 'package', 'packages', 'हेल्थ पैकेज', 'पैकेज', 'चेकअप']],
   ['contact', ['contact', 'phone', 'number', 'call', 'mobile', 'helpline', 'toll free', 'tollfree', 'email', 'mail', 'whatsapp', 'sampark', 'where', 'location', 'located', 'address', 'direction*', 'map', 'maps', 'route', 'reach', 'how to get', 'kahan', 'kaha', 'kidhar', 'pata', 'raasta', 'rasta', 'फोन', 'नंबर', 'संपर्क', 'कॉल', 'ईमेल', 'हेल्पलाइन', 'पता', 'कहां', 'लोकेशन', 'रास्ता', 'मैप', 'पहुंच*']],
+  ['tests', ['test', 'tests', 'testing', 'investigation*', 'jaanch', 'janch', 'jaanche', 'janche', 'जांच*', 'टेस्ट']],
   ['guide', ['what to bring', 'bring', 'documents', 'prepare', 'preparation', 'first visit', 'first consultation', 'kya lana', 'kya laana', 'saath laana', 'saath lana', 'ले जाना', 'लाना', 'लाएं', 'तैयारी', 'दस्तावेज']],
   ['accreditation', ['nabh', 'nabl', 'accredit*', 'certified', 'certification', 'मान्यता', 'प्रमाणित']],
   ['academics', ['academic*', 'mbbs', 'college', 'course', 'courses', 'admission*', 'student*', 'aims', 'education', 'padhai', 'कॉलेज', 'एडमिशन', 'पढ़ाई', 'पढाई']],
@@ -78,7 +85,7 @@ const INTENT_KEYWORDS: [Intent, string[]][] = [
 const COMPILED = INTENT_KEYWORDS.map(([intent, kws]) => [intent, compile(kws)] as const);
 
 const CONTENT_INTENTS: Intent[] = [
-  'hours', 'appointment', 'insurance', 'cost', 'packages', 'contact', 'guide', 'accreditation',
+  'hours', 'appointment', 'insurance', 'cost', 'packages', 'contact', 'tests', 'guide', 'accreditation',
   'academics', 'news', 'doctors', 'specialties', 'services', 'facilities', 'more', 'about', 'whoami',
 ];
 const SMALL_TALK: Intent[] = ['thanks', 'bye', 'ack', 'greeting'];
@@ -124,6 +131,11 @@ const spDesc = (s: Specialty, lang: Lang) => (lang === 'hi' ? specialtyHi[s.slug
 const svName = (s: Service, lang: Lang) => (lang === 'hi' ? serviceHi[s.slug]?.name ?? s.name : s.name);
 const fcName = (f: Facility, lang: Lang) => (lang === 'hi' ? facilityHi[f.slug]?.name ?? f.name : f.name);
 
+/** Picks the Hindi text of a brochure pair for Hindi replies, English otherwise. */
+const tr = (pair: Bilingual, lang: Lang) => (lang === 'hi' ? pair[1] : pair[0]);
+
+const sectionLine = (sec: BrochureSection, lang: Lang) => `**${tr(sec.label, lang)}:** ${sec.items.map((i) => tr(i, lang)).join(', ')}`;
+
 function doctorLine(d: Doctor): string {
   const role = d.role ?? '';
   const q = d.qualifications;
@@ -149,8 +161,19 @@ export function greetingReply(lang: Lang): BotReply {
 function emergencyReply(c: Copy): BotReply {
   return {
     tone: 'emergency',
-    blocks: [text(c.emergency.head(site.phone.tollFree)), text(c.emergency.body), text(c.emergency.ambulance), text(c.emergency.where(hospitalAddress))],
-    links: [callLink(c), { label: c.link.directions, href: mapsHref }, { label: c.link.emergency, href: pageFacts.emergencyPath }],
+    blocks: [
+      text(c.emergency.head(site.phone.tollFree)),
+      text(c.emergency.trauma(brochureContact.emergencyTrauma)),
+      text(c.emergency.body),
+      text(c.emergency.ambulance),
+      text(c.emergency.where(hospitalAddress)),
+    ],
+    links: [
+      callLink(c),
+      { label: c.link.call(brochureContact.emergencyTrauma), href: telHref(brochureContact.emergencyTrauma) },
+      { label: c.link.directions, href: mapsHref },
+      { label: c.link.emergency, href: pageFacts.emergencyPath },
+    ],
     suggestions: [c.suggest.contact, c.suggest.book],
   };
 }
@@ -185,9 +208,10 @@ function contactReply(c: Copy, doctor?: Doctor): BotReply {
     text(c.contact.intro),
     list([
       `${c.contact.tollFree}: **${site.phone.tollFree}**`,
-      `${c.contact.phone}: ${site.phone.primary}`,
-      `${c.contact.landline}: ${site.phone.landline}`,
+      `${c.contact.helpline}: ${brochureContact.helplines.join(', ')}`,
+      `${c.contact.trauma}: **${brochureContact.emergencyTrauma}**`,
       `${c.contact.email}: ${site.email.general}`,
+      `${c.contact.website}: ${brochureContact.website}`,
       `${c.contact.hospital}: ${hospitalAddress}`,
       `${c.contact.office}: ${cityOfficeAddress}`,
     ]),
@@ -261,6 +285,7 @@ function specialtyReply(c: Copy, lang: Lang, s: Specialty, opts: { symptom?: boo
   blocks.push(text(lang === 'hi' ? `**${spName(s, lang)}**` : `**${s.name}** — ${s.tagline}`), text(spDesc(s, lang)));
   blocks.push(text(`**${c.specialty.conditions}:** ${s.conditions.join(', ')}`));
   blocks.push(text(`**${c.specialty.treatments}:** ${s.treatments.map(clean).join(', ')}`));
+  for (const care of brochureCareFor(s.slug)) blocks.push(...care.sections.map((sec) => text(sectionLine(sec, lang))));
   if (opts.expanded) {
     const fac = (s.facilitySlugs ?? []).map(facilityBySlug).filter((f): f is Facility => Boolean(f));
     if (fac.length) blocks.push(text(`**${c.specialty.facilities}:** ${fac.map((f) => fcName(f, lang)).join(', ')}`));
@@ -283,7 +308,8 @@ function serviceReply(c: Copy, lang: Lang, s: Service): BotReply {
   const blocks: ReplyBlock[] = [text(`**${svName(s, lang)}**${s.is24x7 ? ` · ${c.lists.open247}` : ''}`), text(hi ? hi.summary : clean(s.description))];
   const expect = hi ? hi.expect : s.whatToExpect;
   if (expect?.length) blocks.push(list(expect));
-  if (s.slug === 'radiology-imaging') blocks.push(text(c.caveat.radiology));
+  const tests = TEST_SERVICE[s.slug];
+  if (tests) blocks.push(text(`**${c.brochure[tests]}:** ${brochureTests.filter((t) => t.category === tests).map((t) => t.name).join(', ')}`));
   if (!s.verified) blocks.push(text(c.caveat.unverified));
   const related = (s.relatedSpecialtySlugs ?? []).map(specialtyBySlug).filter((x): x is Specialty => Boolean(x));
   return {
@@ -296,12 +322,66 @@ function serviceReply(c: Copy, lang: Lang, s: Service): BotReply {
 function facilityReply(c: Copy, lang: Lang, f: Facility): BotReply {
   const summary = lang === 'hi' ? facilityHi[f.slug]?.summary ?? f.summary : clean(f.summary);
   const blocks: ReplyBlock[] = [text(`**${fcName(f, lang)}**`), text(summary)];
+  if (f.slug === 'icu') blocks.push(text(`**${c.brochure.icus}:** ${brochureIcus.join(', ')}`));
   if (f.slug === 'wards-rooms') blocks.push(text(c.caveat.wards));
   else if (!f.verified) blocks.push(text(c.caveat.unverified));
   return {
     blocks,
     links: [{ label: c.link.page(f.name), href: `/facilities/${f.slug}` }, { label: c.link.facilities, href: '/facilities' }, callLink(c)],
     suggestions: [c.suggest.services, c.suggest.insurance, c.suggest.contact],
+  };
+}
+
+/** Which brochure test list belongs on each diagnostics service page. */
+const TEST_SERVICE: Record<string, BrochureTest['category']> = { 'radiology-imaging': 'radiology', 'diagnostics-pathology': 'pathology' };
+
+function programmeReply(c: Copy, lang: Lang, p: BrochureProgramme): BotReply {
+  const blocks: ReplyBlock[] = [text(`**${tr(p.name, lang)}**`)];
+  if (p.intro) blocks.push(text(tr(p.intro, lang)));
+  p.sections.forEach((sec, i) => {
+    // The first section is the programme's main list; the rest are short add-ons.
+    if (i === 0 && sec.items.length > 1) blocks.push(text(`**${tr(sec.label, lang)}:**`), list(sec.items.map((x) => tr(x, lang))));
+    else blocks.push(text(sectionLine(sec, lang)));
+  });
+  const related = (p.specialtySlugs ?? []).map(specialtyBySlug).filter((x): x is Specialty => Boolean(x));
+  // The chip text must route back here: "Skin doctors" hits the dermatology role topic.
+  const role = roleTopics.find((t) => t.id === p.roleTopic);
+  const withDoctors = related.find((r) => doctorsIn(r.slug).length > 0);
+  const doctorsChip =
+    role && doctorsForRole(role.match).length ? c.suggest.doctorsOf(tr(p.short, lang))
+    : withDoctors ? c.suggest.doctorsOf(shortName(withDoctors))
+    : undefined;
+  return {
+    blocks,
+    links: [...related.slice(0, 1).map((r) => ({ label: c.link.page(shortName(r)), href: `/specialties/${r.slug}` })), bookLink(c), callLink(c)],
+    suggestions: [...(doctorsChip ? [doctorsChip] : []), c.suggest.book, c.suggest.contact],
+  };
+}
+
+function testsReply(c: Copy, tests: BrochureTest[]): BotReply {
+  const categories = [...new Set(tests.map((t) => t.category))];
+  const pages = categories.map((cat) => serviceBySlug(cat === 'radiology' ? 'radiology-imaging' : 'diagnostics-pathology')).filter((x): x is Service => Boolean(x));
+  return {
+    blocks: [text(c.brochure.testsYes), list(tests.map((t) => t.name)), text(c.brochure.testsConfirm(site.phone.tollFree))],
+    links: [...pages.map((sv) => ({ label: c.link.page(sv.name), href: `/services/${sv.slug}` })), callLink(c)],
+    suggestions: [c.suggest.tests, c.suggest.book, c.suggest.contact],
+  };
+}
+
+function allTestsReply(c: Copy): BotReply {
+  const names = (cat: BrochureTest['category']) => brochureTests.filter((t) => t.category === cat).map((t) => t.name).join(', ');
+  return {
+    blocks: [text(`**${c.brochure.radiology}:** ${names('radiology')}`), text(`**${c.brochure.pathology}:** ${names('pathology')}`), text(c.brochure.testsConfirm(site.phone.tollFree))],
+    links: [{ label: c.link.page('Radiology'), href: '/services/radiology-imaging' }, { label: c.link.page('Pathology'), href: '/services/diagnostics-pathology' }, callLink(c)],
+    suggestions: [c.suggest.book, c.suggest.insurance, c.suggest.contact],
+  };
+}
+
+function insuranceReply(c: Copy, lang: Lang): BotReply {
+  return {
+    blocks: [text(c.insurance.schemes), list(brochureSchemes.map((x) => tr(x, lang))), text(tr(brochureMediclaim, lang)), text(c.insurance.confirm(site.phone.tollFree))],
+    links: [callLink(c), { label: c.link.patients, href: pageFacts.patientsPath }],
+    suggestions: [c.suggest.contact, c.suggest.book],
   };
 }
 
@@ -349,7 +429,7 @@ export function respond(input: string, ctx: ChatContext, lang: Lang, languageReq
   const norm = normalize(input);
   const scores = scoreIntents(norm);
   const has = (i: Intent) => (scores.get(i) ?? 0) > 0;
-  const base: ChatContext = { specialty: ctx.specialty, doctor: ctx.doctor, service: ctx.service, facility: ctx.facility };
+  const base: ChatContext = { specialty: ctx.specialty, doctor: ctx.doctor, service: ctx.service, facility: ctx.facility, programme: ctx.programme };
   const done = (reply: BotReply, topic: string, patch: ChatContext = {}): EngineResult => ({ reply, context: { ...base, ...patch, topic } });
 
   if (has('emergency')) return done(emergencyReply(c), 'emergency');
@@ -366,13 +446,19 @@ export function respond(input: string, ctx: ChatContext, lang: Lang, languageReq
   const spHit = findSpecialty(norm);
   const svHit = findService(norm);
   const fcHit = findFacility(norm);
+  const pgHit = findProgramme(norm);
+  const tsHit = findTests(norm);
   const role = findRoleTopic(norm);
 
-  // The longest keyword wins between a department, a service and a facility.
+  // The longest keyword wins between a department, programme, test, service
+  // and facility. On a tie the more specific kind wins (a test over a service,
+  // a brochure programme such as "spine" over the broader department).
   const ranked = [
     spHit && { kind: 'specialty' as const, item: spHit.item, score: spHit.score },
+    pgHit && { kind: 'programme' as const, item: pgHit.item, score: pgHit.score + 0.5 },
     svHit && { kind: 'service' as const, item: svHit.item, score: svHit.score + 0.5 },
     fcHit && { kind: 'facility' as const, item: fcHit.item, score: fcHit.score + 0.5 },
+    tsHit && { kind: 'test' as const, item: tsHit.items, score: tsHit.score + 1 },
   ]
     .filter((x): x is NonNullable<typeof x> => Boolean(x))
     .sort((a, b) => b.score - a.score);
@@ -423,7 +509,10 @@ export function respond(input: string, ctx: ChatContext, lang: Lang, languageReq
   /* ---- Intent-led answers ---- */
   switch (intent) {
     case 'appointment': {
-      const specialty = entity?.kind === 'specialty' ? entity.item : ctxSpecialty;
+      const specialty =
+        entity?.kind === 'specialty' ? entity.item
+        : entity?.kind === 'programme' ? specialtyBySlug(entity.item.specialtySlugs?.[0] ?? '')
+        : ctxSpecialty;
       if (ctxDoctor) return done(appointmentReply(c, lang, { doctor: ctxDoctor }), 'doctor-appointment');
       return done(appointmentReply(c, lang, { specialty }), 'appointment', specialty ? { specialty: specialty.slug } : {});
     }
@@ -431,13 +520,16 @@ export function respond(input: string, ctx: ChatContext, lang: Lang, languageReq
       if (entity && entity.kind !== 'specialty') break; // "is the pharmacy open?" → service reply
       return done(hoursReply(c, ctxDoctor), ctxDoctor ? 'doctor-hours' : 'hours');
     case 'insurance':
-      return done({ blocks: c.insurance(site.phone.tollFree).map(text), links: [callLink(c), { label: c.link.patients, href: pageFacts.patientsPath }], suggestions: [c.suggest.contact, c.suggest.book] }, 'insurance');
+      return done(insuranceReply(c, lang), 'insurance');
     case 'cost':
       return done({ blocks: [text(c.cost(site.phone.tollFree))], links: [callLink(c), { label: c.link.contact, href: '/contact' }], suggestions: [c.suggest.insurance, c.suggest.book] }, 'cost');
     case 'packages':
       return done({ blocks: [text(c.packages(site.phone.tollFree))], links: [callLink(c), { label: c.link.patients, href: pageFacts.patientsPath }], suggestions: [c.suggest.book, c.suggest.contact] }, 'packages');
     case 'contact':
       if (!entity && !role) return done(contactReply(c, ctxDoctor), ctxDoctor ? 'doctor-contact' : 'contact');
+      break;
+    case 'tests':
+      if (noEntity) return done(allTestsReply(c), 'tests');
       break;
     case 'guide':
       if (guideArticle) {
@@ -475,7 +567,15 @@ export function respond(input: string, ctx: ChatContext, lang: Lang, languageReq
     case 'services':
       if (noEntity) {
         return done(
-          { blocks: [text(c.lists.services), list(services.map((s) => `${svName(s, lang)}${s.is24x7 ? ` — ${c.lists.open247}` : ''}`))], links: [{ label: c.link.services, href: '/services' }], suggestions: [c.suggest.departments, c.suggest.emergency, c.suggest.insurance] },
+          {
+            blocks: [
+              text(c.lists.services),
+              list(services.map((s) => `${svName(s, lang)}${s.is24x7 ? ` — ${c.lists.open247}` : ''}`)),
+              text(`**${c.brochure.programmes}:** ${brochureProgrammes.map((p) => tr(p.name, lang)).join(', ')}`),
+            ],
+            links: [{ label: c.link.services, href: '/services' }],
+            suggestions: [c.suggest.tests, c.suggest.departments, c.suggest.insurance],
+          },
           'services',
         );
       }
@@ -496,6 +596,10 @@ export function respond(input: string, ctx: ChatContext, lang: Lang, languageReq
       if (ctx.service) {
         const s = serviceBySlug(ctx.service);
         if (s && ctx.topic === 'service') return done(serviceReply(c, lang, s), 'service');
+      }
+      if (ctx.programme && ctx.topic === 'programme') {
+        const pg = programmeBySlug(ctx.programme);
+        if (pg) return done(programmeReply(c, lang, pg), 'programme');
       }
       if (ctx.facility && ctx.topic === 'facility') {
         const f = facilityBySlug(ctx.facility);
@@ -518,6 +622,15 @@ export function respond(input: string, ctx: ChatContext, lang: Lang, languageReq
   }
 
   /* ---- Entity-led answers ---- */
+  // "nasha mukti" → the centre; "nasha mukti doctors" → the doctors (via the
+  // role topic, or else the programme's linked department).
+  if (entity?.kind === 'programme' && !(intent === 'doctors' && role)) {
+    const p = entity.item;
+    const dept = intent === 'doctors' ? p.specialtySlugs?.map(specialtyBySlug).find((s) => s && doctorsIn(s.slug).length > 0) : undefined;
+    if (dept) return done(specialtyDoctors(c, lang, dept), 'specialty-doctors', { specialty: dept.slug });
+    return done(programmeReply(c, lang, p), 'programme', { programme: p.slug, specialty: p.specialtySlugs?.[0] ?? ctx.specialty });
+  }
+  if (entity?.kind === 'test') return done(testsReply(c, entity.item), 'tests');
   if (role) {
     const docs = doctorsForRole(role.match);
     if (docs.length) return done(doctorList(c, c.doctors.role(c.doctors.roleLabels[role.id]), docs), 'role-doctors');

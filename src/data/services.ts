@@ -70,18 +70,19 @@ export const services: Service[] = [
   {
     slug: 'blood-centre',
     name: 'Blood Centre',
-    summary: 'Blood bank & transfusion support.',
-    description: 'Blood centre services supporting surgical and emergency care. [CONTENT REQUIRES VERIFICATION] — confirm licence & services.',
+    summary: '24/7 blood bank & transfusion support.',
+    description: 'Round-the-clock blood centre services supporting surgical and emergency care.',
     icon: 'Droplet',
-    verified: false,
+    is24x7: true,
+    verified: true, // 24x7 blood centre — hospital brochure
   },
   {
     slug: 'ambulance',
     name: 'Ambulance Services',
     summary: 'Emergency patient transport.',
-    description: 'Ambulance support for emergency transport. [CONTENT REQUIRES VERIFICATION] — confirm fleet & coverage.',
+    description: 'Round-the-clock ambulance support for emergency transport.',
     icon: 'Ambulance',
     is24x7: true,
-    verified: false,
+    verified: true, // 24x7 ambulance — hospital brochure
   },
 ];

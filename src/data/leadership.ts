@@ -6,6 +6,8 @@ export interface Leader {
   slug: string;
   name: string;
   title: string;
+  /** Qualifications shown under the title, if any. */
+  credentials?: string;
   photo: { src: string; width: number; height: number };
   /** Page path for the full message. */
   href: string;
@@ -31,43 +33,31 @@ export const leaders: Leader[] = [
     message: [],
   },
   {
-    slug: 'medical-superintendent',
-    name: 'Dr. Mahavir Khandelwal',
-    title: 'Medical Superintendent',
-    photo: { src: '/images/about/medical-superintendent-mahavir-khandelwal.jpeg', width: 500, height: 500 },
-    href: '/about/medical-superintendent-message',
+    slug: 'dean',
+    name: 'Dr. (Prof.) Abhilash Kumar Pithawa',
+    title: 'Dean',
+    credentials: 'MS, FAIS, FMAS, FIAGES',
+    photo: { src: '/images/about/dean-abhilash-kumar-pithawa.jpg', width: 630, height: 630 },
+    href: '/about/dean-message',
     excerpt:
-      'At Amaltas Hospital we foster, promote and practice high quality, ethical, evidence-based medicine. The staff is committed to delivering professional services and outstanding hospitality.',
-    intro: 'High quality, ethical, evidence-based medicine, delivered with dignity and respect.',
+      'Great doctors are shaped at the bedside. At Amaltas, teaching and patient care go hand in hand, so that every student learns medicine the way it should be practised — with skill, integrity and compassion.',
+    intro: 'Where medical education and patient care grow together, with skill, integrity and compassion.',
     message: [
-      'At Amaltas Hospital we foster, promote and practice high quality, ethical, evidence-based medicine. The staff is committed to delivering professional services and outstanding hospitality.',
-      'These services are provided for all individuals in accordance with their needs and with acknowledgment and respect of cultural diversity, including race, religion, nationality, gender, age, disability and financial status. Our major focus is to establish and promote collaborative partnerships between individuals served, staff and families in order to maintain an environment where services and treatment are provided with dignity and respect to all.',
-      'We have a highly qualified and dedicated team of Medical, Administrative and Support staff. The top medical professionals, superior medicine and progressive change make Amaltas Hospital one of the leading hospitals in the area. This whole package among other things is what ensures a high and assured quality of service for all people who visit this Hospital.',
-      'Plans are underway to constantly increase and improve the services and clinics that the Hospital offers, both in curative and preventive healthcare applications. We are continuously expanding the practice to meet the growing needs of our patient population. Through this website, we would like to shed light on the activities of our hospitals and developmental plans and strategies that will make them keep pace with all developments in the medical field. As always, we are looking to improve our care and service to you. I want to invite you to take a closer look at our services and tell us how we are doing. We shall only be glad to work towards offering you what you look for in the field of Medicine & Surgery.',
-      'We look forward to caring for your current and future health care needs.',
-    ],
-  },
-  {
-    slug: 'coo',
-    name: 'Dr. Jagat Bahadur Rawat',
-    title: 'Chief Operating Officer (COO)',
-    photo: { src: '/images/about/coo-jagat-bahadur-rawat.jpg', width: 500, height: 500 },
-    href: '/about/coo-message',
-    excerpt:
-      'Today, we are proud to be one of the preferred healthcare service providers in the state. We would like to sincerely thank the people of Dewas in blessing our efforts.',
-    intro: 'Surrounding every patient with compassion, dignity and the best possible medical care.',
-    message: [
-      'Today, we are proud to be one of the preferred healthcare service providers in the state.',
+      'Great doctors are shaped at the bedside. At Amaltas, teaching and patient care go hand in hand, so that every student learns medicine the way it should be practised — with skill, integrity and compassion.',
+      'As the teaching hospital of Amaltas Institute of Medical Sciences, Amaltas Hospital brings together experienced faculty, modern infrastructure and a wide range of clinical cases under one roof. Our patients benefit from the expertise of senior consultants, while our students and residents gain the hands-on clinical exposure that no textbook can replace.',
+      'Our commitment rests on a few simple principles:',
       [
-        'Easily Accessible',
-        'Renowned physicians on panel.',
-        'We have been a part of the evolution of healthcare in Central India.',
-        'We have been continuously striving towards ensuring that we are the most preferred healthcare service provider of the people.',
-        'We would like to sincerely thank the people of Dewas in blessing our efforts, without which going ahead, we solicit your wishes & support in making us the best in our league.',
+        'Patient first — every clinical and academic decision begins with the well-being of the patient.',
+        'Evidence-based practice — we teach and treat in line with current medical knowledge and standard protocols.',
+        'Ethics and empathy — we expect our doctors to listen, explain and treat every patient with dignity.',
+        'Lifelong learning — through CMEs, workshops and research, our faculty and students keep pace with advances in medicine.',
+        'Service to the community — through health camps and outreach, we carry care beyond the hospital walls.',
       ],
-      'We had a dream to surround our patients with compassion and dignity, and touch each mind, body and spirit with best possible medical care — this was the goal we have set for ourselves. This is our life’s work create a single super-specialty hospital for all replacement surgeries where every patient is treated as a V I P Guest leaves the hospital with proud and confident gait. I am Proud to be a part of an exclusive centre of excellence in health care sector. I assure promise not to disappoint anyone coming to seek best possible health care at Amaltas Hospital.',
+      'Medicine is a profession of responsibility. We are proud to be training a new generation of doctors for Central India, and we hold them to the same standard we hold ourselves: to treat each patient as we would want our own family to be treated.',
+      'To our patients, thank you for the trust you place in us. To our students, I encourage you to make the most of every opportunity to learn. Together, we will keep working to make Amaltas a centre of excellence in both healthcare and medical education.',
     ],
   },
 ];
 
 export const getLeader = (slug: string) => leaders.find((l) => l.slug === slug);
+

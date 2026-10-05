@@ -5,8 +5,13 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Reveal } from '@/components/ui/Reveal';
 import { leaders } from '@/data/leadership';
 
-/** Our Leadership — messages from the chairman and hospital administration. */
+/** Leaders featured on the homepage, in display order. */
+const HOMEPAGE_LEADERS = ['chairman', 'dean'];
+
+/** Our Leadership — messages from the chairman and the medical college dean. */
 export function Leadership() {
+  const featured = HOMEPAGE_LEADERS.map((slug) => leaders.find((l) => l.slug === slug)).filter((l) => l !== undefined);
+
   return (
     <Section ariaLabel="Our leadership">
       <SectionHeading
@@ -14,9 +19,9 @@ export function Leadership() {
         title="Messages from our leadership"
         description="The people guiding Amaltas Hospital's commitment to ethical, accessible, world-class care."
       />
-      <div className="mt-9 grid gap-6 md:grid-cols-3">
-        {leaders.map((l, i) => (
-          <Reveal key={l.name} delay={i * 0.06}>
+      <div className="mx-auto mt-9 grid max-w-4xl gap-6 md:grid-cols-2">
+        {featured.map((l, i) => (
+          <Reveal key={l.slug} delay={i * 0.06}>
             <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface shadow-card transition-shadow duration-300 hover:shadow-card-hover">
               <div className="relative aspect-[4/5] overflow-hidden bg-gradient-to-b from-brand-50 to-brand-100">
                 <img
@@ -29,7 +34,10 @@ export function Leadership() {
                 <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-brand-950/90 via-brand-950/50 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-5">
                   <h3 className="font-display text-lg font-semibold text-white">{l.name}</h3>
-                  <p className="text-sm text-accent-400">{l.title}</p>
+                  <p className="text-sm text-accent-400">
+                    {l.title}
+                    {l.credentials && <span className="text-white/70"> · {l.credentials}</span>}
+                  </p>
                 </div>
               </div>
               <div className="flex flex-1 flex-col p-6">

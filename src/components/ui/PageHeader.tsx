@@ -19,7 +19,7 @@ export function PageHeader({
   crumbs: Crumb[];
   title: string;
   intro?: ReactNode;
-  image?: { src: string; alt?: string };
+  image?: { src: string; alt?: string; position?: string };
   children?: ReactNode;
 }) {
   if (!image) {
@@ -45,6 +45,7 @@ export function PageHeader({
         decoding="async"
         fetchPriority="high"
         className="absolute inset-0 h-full w-full object-cover object-center"
+        style={image.position ? { objectPosition: image.position } : undefined}
       />
       {/* Left-dark ramp: the copy sits on near-solid green, the photograph
           opens up on the right where there is nothing to read. */}

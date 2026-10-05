@@ -466,6 +466,31 @@ const datedClippings: PressClippingSlot[] = datedImageFiles.map(
 
 
 /**
+ * September 2026 clippings
+ */
+const septemberClippingFiles: [string, string][] = [
+  ['dehdan.jpg', 'Newspaper coverage of the body donation of the late Mangala Parmar to Amaltas Medical College with state honours'],
+  ['dehdan-1.jpg', 'Newspaper coverage of the body donation of the late Mangala Parmar to Amaltas Medical College with state honours'],
+  ['hemmant-mittal-hospital-news-1.jpeg', 'Newspaper coverage of Amaltas Hospital'],
+  ['mohit-patient.jpg', 'Newspaper coverage of an Amaltas Hospital patient'],
+  ['mohit-patient-1.jpg', 'Newspaper coverage of an Amaltas Hospital patient'],
+  ['vridhashram-hospital-news-1.jpeg', 'Newspaper coverage of Amaltas Hospital at an old-age home'],
+  ['WhatsApp-Image-2026-09-08-at-10.28.50-AM-1.jpeg', 'Newspaper coverage of Amaltas Hospital'],
+  ['WhatsApp-Image-2026-09-08-at-10.28.50-AM-2.jpeg', 'Newspaper coverage of Amaltas Hospital'],
+  ['WhatsApp-Image-2026-09-08-at-10.28.50-AM-3.jpeg', 'Newspaper coverage of Amaltas Hospital'],
+];
+
+const septemberClippings: PressClippingSlot[] = septemberClippingFiles.map(
+  ([filename, alt], index) =>
+    createClipping(
+      'clip-' + (397 + datedImageFiles.length + index),
+      '/images/amaltas-news-clippings/' + filename,
+      alt
+    )
+);
+
+
+/**
  * COMPLETE EXPORT
  *
  * This is the named export your News page imports.
@@ -474,5 +499,6 @@ export const pressClippingSlots: PressClippingSlot[] = [
   ...numberedClippings,
   ...namedClippings,
   ...datedClippings,
+  ...septemberClippings,
 ];
 

@@ -164,6 +164,39 @@ export interface GalleryItem {
   category?: string;
 }
 
+/** [English, Hindi] text pair. Hinglish replies use the English text. */
+export type Bilingual = readonly [en: string, hi: string];
+
+export interface BrochureSection {
+  label: Bilingual;
+  items: Bilingual[];
+}
+
+/** A care programme from the printed brochure that has no website specialty page. */
+export interface BrochureProgramme {
+  slug: Slug;
+  name: Bilingual;
+  /** Short label for quick replies, e.g. "Skin" → "Skin doctors". */
+  short: Bilingual;
+  intro?: Bilingual;
+  sections: BrochureSection[];
+  /** Closest website specialty pages, used for links and appointment routing. */
+  specialtySlugs?: Slug[];
+  /** Chat role topic whose doctors cover this programme (see lib/chat/knowledge). */
+  roleTopic?: string;
+}
+
+/** Brochure detail that extends an existing website specialty. */
+export interface BrochureCare {
+  specialtySlugs: Slug[];
+  sections: BrochureSection[];
+}
+
+export interface BrochureTest {
+  name: string;
+  category: 'radiology' | 'pathology';
+}
+
 /** Global-search result envelope. */
 export interface SearchResult {
   type: 'doctor' | 'specialty' | 'service' | 'facility' | 'article' | 'page';

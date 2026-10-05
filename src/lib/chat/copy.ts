@@ -82,7 +82,7 @@ export interface Copy {
     page: (name: string) => string;
     guide: string;
   };
-  emergency: { head: (n: string) => string; body: string; where: (a: string) => string; ambulance: string };
+  emergency: { head: (n: string) => string; body: string; where: (a: string) => string; ambulance: string; trauma: (n: string) => string };
   appointment: {
     intro: string;
     steps: string[];
@@ -92,8 +92,8 @@ export interface Copy {
     forSpecialty: (specialty: string) => string;
   };
   hours: { emergency: string; notPublished: (a: string, b: string) => string; doctor: (d: string) => string; doctorListed: (d: string, t: string) => string };
-  contact: { intro: string; tollFree: string; phone: string; landline: string; email: string; hospital: string; office: string; doctorNote: (d: string) => string };
-  insurance: (n: string) => string[];
+  contact: { intro: string; tollFree: string; helpline: string; trauma: string; email: string; website: string; hospital: string; office: string; doctorNote: (d: string) => string };
+  insurance: { schemes: string; confirm: (n: string) => string };
   cost: (n: string) => string;
   packages: (n: string) => string;
   guide: { intro: string; outro: string };
@@ -115,7 +115,16 @@ export interface Copy {
   profile: { role: string; qualifications: string; department: string; experience: (y: number) => string; expertise: string; languages: string; timings: string };
   specialty: { symptom: (s: string) => string; conditions: string; treatments: string; doctorCount: (n: number) => string; faqs: string; facilities: string };
   lists: { specialties: string; services: string; facilities: string; open247: string };
-  caveat: { unverified: string; radiology: string; wards: string };
+  caveat: { unverified: string; wards: string };
+  brochure: {
+    testsYes: string;
+    testsConfirm: (n: string) => string;
+    radiology: string;
+    pathology: string;
+    icus: string;
+    programmes: string;
+    linkedPage: string;
+  };
   advice: { decline: string; department: (s: string) => string; urgent: (n: string) => string };
   whoami: string[];
   thanks: string;
@@ -138,6 +147,7 @@ export interface Copy {
     insurance: string;
     emergency: string;
     guide: string;
+    tests: string;
   };
 }
 
@@ -162,7 +172,7 @@ const en: Copy = {
     'Hi, I’m **Riya**! 👋 How can I help you today?',
     'I can help with doctors, departments, appointments, services and contact details. You can chat with me in English, हिन्दी or Hinglish.',
   ],
-  defaultSuggestions: ['Find a doctor', 'Book an appointment', 'Visiting hours', 'Departments', 'Location & contact', 'Insurance & billing'],
+  defaultSuggestions: ['Find a doctor', 'Book an appointment', 'Which tests are available?', 'Departments', 'Location & contact', 'Insurance & schemes'],
   langSwitched: 'Sure — I’ll reply in English from now on. How can I help?',
   link: {
     call: (n) => `Call ${n}`,
@@ -186,7 +196,8 @@ const en: Copy = {
     head: (n) => `🚨 **If this is a medical emergency, please call ${n} right away.**`,
     body: 'Our Emergency & Casualty department is open **24/7**, with support for accidents and serious injuries (trauma & polytrauma), backed by critical care.',
     where: (a) => `📍 ${a}`,
-    ambulance: 'For ambulance help, call the same toll-free number.',
+    ambulance: 'Our ambulance service runs **24/7** — call the toll-free number or the Emergency & Trauma line.',
+    trauma: (n) => `Emergency & Trauma Centre direct line: **${n}**`,
   },
   appointment: {
     intro: 'You can request an appointment online in 4 simple steps:',
@@ -210,24 +221,24 @@ const en: Copy = {
   contact: {
     intro: 'Here’s how to reach Amaltas Hospital:',
     tollFree: '📞 Toll-free',
-    phone: '📱 Phone',
-    landline: '☎️ Landline',
+    helpline: '☎️ 24x7 helpline',
+    trauma: '🚑 Emergency & trauma',
     email: '✉️ Email',
+    website: '🌐 Website',
     hospital: '🏥 Hospital',
     office: '🏢 Indore City Office',
     doctorNote: (d) => `Doctors’ direct numbers aren’t listed on the website — please call the hospital and ask for **${d}**.`,
   },
-  insurance: (n) => [
-    'Our Patients & Visitors page mentions **insurance and cashless scheme support**, but the website doesn’t yet list the accepted insurance companies, TPAs or government schemes.',
-    'Ayushman Bharat (PM-JAY) is also mentioned, but its details are still being confirmed.',
-    `Please call **${n}** to confirm your insurance or scheme before your visit or admission.`,
-  ],
+  insurance: {
+    schemes: 'Amaltas Hospital accepts these government and employer health schemes:',
+    confirm: (n) => `Please call **${n}** to confirm your eligibility, policy or scheme before your visit or admission.`,
+  },
   cost: (n) => `Fees and charges — such as consultation fees, treatment costs and room charges — aren’t published on our website. Please call **${n}** for current charges.`,
   packages: (n) => `Preventive **health check packages** are mentioned on our website, but package details and prices aren’t published yet. Please call **${n}** to ask about them.`,
   guide: { intro: 'Here’s what our patient guide suggests bringing to your first consultation:', outro: 'If you are visiting for someone else, bring their documents and, where possible, come with them.' },
   accreditation: {
     nabh: 'Amaltas Institute of Medical Sciences is **NABH-accredited** (National Accreditation Board for Hospitals & Healthcare Providers).',
-    pending: 'NABL (laboratory) accreditation and Ayushman Bharat empanelment are also mentioned on the site, but their status is still being confirmed.',
+    pending: 'Ayushman Bharat is among the schemes the hospital accepts. NABL (laboratory) accreditation is mentioned on the site, but its status is still being confirmed.',
   },
   about: (name, academic, acres) => [
     `**${name}** (${academic}) is a NABH-accredited multi-superspeciality hospital in Dewas, Madhya Pradesh, on a ${acres}-acre campus.`,
@@ -282,8 +293,16 @@ const en: Copy = {
   },
   caveat: {
     unverified: 'Details of this service are still being confirmed — please call the hospital before your visit.',
-    radiology: 'The website doesn’t list specific scan types or equipment — please call to check if a particular scan is available.',
     wards: 'Room categories, prices and the number of beds aren’t published on the website yet.',
+  },
+  brochure: {
+    testsYes: 'Yes — these tests are available at Amaltas:',
+    testsConfirm: (n) => `Some tests need a doctor’s prescription or preparation (like fasting). Please call **${n}** to check timings and preparation.`,
+    radiology: 'Imaging & other tests available',
+    pathology: 'Lab tests available',
+    icus: 'Intensive care units',
+    programmes: 'Super-speciality programmes',
+    linkedPage: 'Related department',
   },
   advice: {
     decline: 'I’m sorry, I can’t give medical advice, diagnoses or medicine suggestions. 🙏 Please consult a doctor — I can help you find the right department or request an appointment.',
@@ -311,9 +330,10 @@ const en: Copy = {
     departments: 'Departments',
     services: 'Services',
     doctors: 'Find a doctor',
-    insurance: 'Insurance & billing',
+    insurance: 'Insurance & schemes',
     emergency: 'Emergency',
     guide: 'What should I bring?',
+    tests: 'Which tests are available?',
   },
 };
 
@@ -338,7 +358,7 @@ const hi: Copy = {
     'नमस्ते, मैं **रिया** हूँ! 👋 आज मैं आपकी क्या मदद कर सकती हूँ?',
     'मैं डॉक्टर, विभाग, अपॉइंटमेंट, सेवाओं और संपर्क की जानकारी में आपकी मदद कर सकती हूँ। आप मुझसे English, हिन्दी या Hinglish में बात कर सकते हैं।',
   ],
-  defaultSuggestions: ['डॉक्टर खोजें', 'अपॉइंटमेंट कैसे बुक करें?', 'मिलने का समय', 'विभाग', 'पता और संपर्क', 'बीमा और बिलिंग'],
+  defaultSuggestions: ['डॉक्टर खोजें', 'अपॉइंटमेंट कैसे बुक करें?', 'कौन सी जाँचें उपलब्ध हैं?', 'विभाग', 'पता और संपर्क', 'बीमा और योजनाएँ'],
   langSwitched: 'ज़रूर — अब से मैं हिन्दी में जवाब दूँगी। बताइए, मैं क्या मदद करूँ?',
   link: {
     call: (n) => `${n} पर कॉल करें`,
@@ -362,7 +382,8 @@ const hi: Copy = {
     head: (n) => `🚨 **अगर यह मेडिकल इमरजेंसी है, तो तुरंत ${n} पर कॉल करें।**`,
     body: 'हमारा इमरजेंसी और कैजुअल्टी विभाग **24/7 खुला** रहता है — दुर्घटना और गंभीर चोटों (ट्रॉमा और पॉलीट्रॉमा) के लिए, क्रिटिकल केयर की सहायता के साथ।',
     where: (a) => `📍 ${a}`,
-    ambulance: 'एम्बुलेंस सहायता के लिए भी इसी टोल-फ्री नंबर पर कॉल करें।',
+    ambulance: 'हमारी एंबुलेंस सुविधा **24x7** उपलब्ध है — टोल-फ्री नंबर या इमरजेंसी व ट्रामा लाइन पर कॉल करें।',
+    trauma: (n) => `आपातकालीन चिकित्सा और ट्रामा सेन्टर: **${n}**`,
   },
   appointment: {
     intro: 'आप 4 आसान चरणों में ऑनलाइन अपॉइंटमेंट का अनुरोध कर सकते हैं:',
@@ -386,24 +407,24 @@ const hi: Copy = {
   contact: {
     intro: 'अमलतास हॉस्पिटल से संपर्क करने के तरीके:',
     tollFree: '📞 टोल-फ्री',
-    phone: '📱 फ़ोन',
-    landline: '☎️ लैंडलाइन',
+    helpline: '☎️ 24x7 हेल्पलाइन',
+    trauma: '🚑 इमरजेंसी व ट्रामा',
     email: '✉️ ईमेल',
+    website: '🌐 वेबसाइट',
     hospital: '🏥 हॉस्पिटल',
     office: '🏢 इंदौर सिटी ऑफ़िस',
     doctorNote: (d) => `डॉक्टरों के सीधे नंबर वेबसाइट पर नहीं दिए गए हैं — कृपया हॉस्पिटल में कॉल करके **${d}** के बारे में पूछें।`,
   },
-  insurance: (n) => [
-    'हमारे मरीज़ और आगंतुक पेज पर **बीमा और कैशलेस योजना सहायता** का उल्लेख है, लेकिन स्वीकार की जाने वाली बीमा कंपनियों, TPA या सरकारी योजनाओं की सूची अभी वेबसाइट पर नहीं है।',
-    'आयुष्मान भारत (PM-JAY) का भी उल्लेख है, लेकिन इसकी जानकारी की अभी पुष्टि की जा रही है।',
-    `आने या भर्ती होने से पहले कृपया **${n}** पर कॉल करके अपने बीमा या योजना की पुष्टि कर लें।`,
-  ],
+  insurance: {
+    schemes: 'अमलतास हॉस्पिटल में ये सरकारी और कर्मचारी स्वास्थ्य योजनाएँ मान्य हैं:',
+    confirm: (n) => `आने या भर्ती होने से पहले कृपया **${n}** पर कॉल करके अपनी पात्रता, पॉलिसी या योजना की पुष्टि कर लें।`,
+  },
   cost: (n) => `फ़ीस और शुल्क — जैसे परामर्श शुल्क, इलाज का खर्च और कमरे का किराया — वेबसाइट पर नहीं दिए गए हैं। वर्तमान शुल्क के लिए कृपया **${n}** पर कॉल करें।`,
   packages: (n) => `वेबसाइट पर **हेल्थ चेकअप पैकेज** का उल्लेख है, लेकिन पैकेज की जानकारी और कीमतें अभी उपलब्ध नहीं हैं। जानकारी के लिए **${n}** पर कॉल करें।`,
   guide: { intro: 'हमारी मरीज़ गाइड के अनुसार पहले परामर्श में ये चीज़ें साथ लाएँ:', outro: 'अगर आप किसी और के लिए आ रहे हैं, तो उनके दस्तावेज़ लाएँ और हो सके तो उन्हें साथ लेकर आएँ।' },
   accreditation: {
     nabh: 'अमलतास इंस्टीट्यूट ऑफ़ मेडिकल साइंसेज़ **NABH से मान्यता प्राप्त** है (National Accreditation Board for Hospitals & Healthcare Providers)।',
-    pending: 'NABL (लैब) मान्यता और आयुष्मान भारत का भी वेबसाइट पर उल्लेख है, लेकिन उनकी स्थिति की अभी पुष्टि की जा रही है।',
+    pending: 'आयुष्मान भारत हॉस्पिटल में मान्य योजनाओं में शामिल है। NABL (लैब) मान्यता का भी वेबसाइट पर उल्लेख है, लेकिन उसकी स्थिति की अभी पुष्टि की जा रही है।',
   },
   about: (name, academic, acres) => [
     `**${name}** (${academic}) देवास, मध्य प्रदेश में स्थित एक NABH-मान्यता प्राप्त मल्टी-सुपरस्पेशियलिटी हॉस्पिटल है, जिसका कैंपस ${acres} एकड़ में फैला है।`,
@@ -458,8 +479,16 @@ const hi: Copy = {
   },
   caveat: {
     unverified: 'इस सेवा की जानकारी की अभी पुष्टि की जा रही है — आने से पहले कृपया हॉस्पिटल में कॉल कर लें।',
-    radiology: 'वेबसाइट पर स्कैन के प्रकार या मशीनों की सूची नहीं है — किसी ख़ास स्कैन के लिए कृपया कॉल करके पूछें।',
     wards: 'कमरों की श्रेणियाँ, किराया और बेड की संख्या अभी वेबसाइट पर नहीं दी गई है।',
+  },
+  brochure: {
+    testsYes: 'जी हाँ — अमलतास में ये जाँचें उपलब्ध हैं:',
+    testsConfirm: (n) => `कुछ जाँचों के लिए डॉक्टर की पर्ची या तैयारी (जैसे खाली पेट) ज़रूरी होती है। समय और तैयारी जानने के लिए कृपया **${n}** पर कॉल करें।`,
+    radiology: 'उपलब्ध इमेजिंग व अन्य जाँचें',
+    pathology: 'उपलब्ध लैब जाँचें',
+    icus: 'गहन चिकित्सा इकाइयाँ (ICU)',
+    programmes: 'सुपर स्पेशलिटी सेवाएँ',
+    linkedPage: 'संबंधित विभाग',
   },
   advice: {
     decline: 'माफ़ कीजिए, मैं चिकित्सा सलाह, निदान या दवा के सुझाव नहीं दे सकती। 🙏 कृपया डॉक्टर से परामर्श लें — मैं सही विभाग खोजने या अपॉइंटमेंट में आपकी मदद कर सकती हूँ।',
@@ -487,9 +516,10 @@ const hi: Copy = {
     departments: 'विभाग',
     services: 'सेवाएँ',
     doctors: 'डॉक्टर खोजें',
-    insurance: 'बीमा और बिलिंग',
+    insurance: 'बीमा और योजनाएँ',
     emergency: 'इमरजेंसी',
     guide: 'क्या साथ लाना है?',
+    tests: 'कौन सी जाँचें उपलब्ध हैं?',
   },
 };
 
@@ -514,7 +544,7 @@ const hinglish: Copy = {
     'Namaste, main **Riya** hoon! 👋 Aaj main aapki kya madad kar sakti hoon?',
     'Main doctors, departments, appointment, services aur contact details mein help kar sakti hoon. Aap mujhse English, हिन्दी ya Hinglish mein baat kar sakte hain.',
   ],
-  defaultSuggestions: ['Doctor dhundhna hai', 'Appointment kaise book karein?', 'Visiting hours kya hain?', 'Departments kaunse hain?', 'Address aur contact', 'Insurance aur billing'],
+  defaultSuggestions: ['Doctor dhundhna hai', 'Appointment kaise book karein?', 'Kaunse tests available hain?', 'Departments kaunse hain?', 'Address aur contact', 'Insurance aur schemes'],
   langSwitched: 'Bilkul — ab se main Hinglish mein reply karungi. Bataiye, kya madad karun?',
   link: {
     call: (n) => `${n} par call karein`,
@@ -538,7 +568,8 @@ const hinglish: Copy = {
     head: (n) => `🚨 **Agar yeh medical emergency hai, toh turant ${n} par call karein.**`,
     body: 'Hamara Emergency & Casualty department **24/7 khula** rehta hai — accident aur serious injuries (trauma & polytrauma) ke liye, critical care support ke saath.',
     where: (a) => `📍 ${a}`,
-    ambulance: 'Ambulance help ke liye bhi isi toll-free number par call karein.',
+    ambulance: 'Hamari ambulance service **24x7** available hai — toll-free number ya Emergency & Trauma line par call karein.',
+    trauma: (n) => `Emergency & Trauma Centre direct line: **${n}**`,
   },
   appointment: {
     intro: 'Aap 4 aasaan steps mein online appointment request kar sakte hain:',
@@ -562,24 +593,24 @@ const hinglish: Copy = {
   contact: {
     intro: 'Amaltas Hospital se contact karne ke tareeke:',
     tollFree: '📞 Toll-free',
-    phone: '📱 Phone',
-    landline: '☎️ Landline',
+    helpline: '☎️ 24x7 helpline',
+    trauma: '🚑 Emergency & trauma',
     email: '✉️ Email',
+    website: '🌐 Website',
     hospital: '🏥 Hospital',
     office: '🏢 Indore City Office',
     doctorNote: (d) => `Doctors ke direct number website par nahi hain — please hospital mein call karke **${d}** ke baare mein poochein.`,
   },
-  insurance: (n) => [
-    'Hamare Patients & Visitors page par **insurance aur cashless scheme support** ka zikr hai, lekin accepted insurance companies, TPA ya government schemes ki list abhi website par nahi hai.',
-    'Ayushman Bharat (PM-JAY) ka bhi zikr hai, lekin iski details abhi confirm ki ja rahi hain.',
-    `Aane ya admit hone se pehle please **${n}** par call karke apna insurance ya scheme confirm kar lein.`,
-  ],
+  insurance: {
+    schemes: 'Amaltas Hospital mein yeh government aur employee health schemes accepted hain:',
+    confirm: (n) => `Aane ya admit hone se pehle please **${n}** par call karke apni eligibility, policy ya scheme confirm kar lein.`,
+  },
   cost: (n) => `Fees aur charges — jaise consultation fees, treatment cost aur room charges — website par nahi diye gaye hain. Current charges ke liye please **${n}** par call karein.`,
   packages: (n) => `Website par **health check-up packages** ka zikr hai, lekin package details aur prices abhi available nahi hain. Jaankari ke liye **${n}** par call karein.`,
   guide: { intro: 'Hamari patient guide ke hisaab se pehli consultation mein yeh cheezein saath laayein:', outro: 'Agar aap kisi aur ke liye aa rahe hain, toh unke documents laayein aur ho sake toh unhe saath lekar aayein.' },
   accreditation: {
     nabh: 'Amaltas Institute of Medical Sciences **NABH-accredited** hai (National Accreditation Board for Hospitals & Healthcare Providers).',
-    pending: 'NABL (lab) accreditation aur Ayushman Bharat ka bhi website par zikr hai, lekin unka status abhi confirm kiya ja raha hai.',
+    pending: 'Ayushman Bharat hospital ki accepted schemes mein shaamil hai. NABL (lab) accreditation ka bhi website par zikr hai, lekin uska status abhi confirm kiya ja raha hai.',
   },
   about: (name, academic, acres) => [
     `**${name}** (${academic}) Dewas, Madhya Pradesh mein ek NABH-accredited multi-superspeciality hospital hai, jiska campus ${acres} acre ka hai.`,
@@ -634,8 +665,16 @@ const hinglish: Copy = {
   },
   caveat: {
     unverified: 'Is service ki details abhi confirm ki ja rahi hain — aane se pehle please hospital mein call kar lein.',
-    radiology: 'Website par specific scan types ya machines ki list nahi hai — kisi particular scan ke liye please call karke poochein.',
     wards: 'Room categories, charges aur beds ki sankhya abhi website par nahi di gayi hai.',
+  },
+  brochure: {
+    testsYes: 'Haan — Amaltas mein yeh tests available hain:',
+    testsConfirm: (n) => `Kuch tests ke liye doctor ki parchi ya taiyari (jaise khaali pet) zaroori hoti hai. Timings aur taiyari jaanne ke liye please **${n}** par call karein.`,
+    radiology: 'Available imaging aur other tests',
+    pathology: 'Available lab tests',
+    icus: 'Intensive care units (ICU)',
+    programmes: 'Super-speciality programmes',
+    linkedPage: 'Related department',
   },
   advice: {
     decline: 'Sorry, main medical advice, diagnosis ya dawai suggest nahi kar sakti. 🙏 Please doctor se consult karein — main sahi department dhundhne ya appointment request karne mein help kar sakti hoon.',
@@ -663,9 +702,10 @@ const hinglish: Copy = {
     departments: 'Departments kaunse hain?',
     services: 'Services kaunsi hain?',
     doctors: 'Doctor dhundhna hai',
-    insurance: 'Insurance aur billing',
+    insurance: 'Insurance aur schemes',
     emergency: 'Emergency',
     guide: 'Kya saath laana hai?',
+    tests: 'Kaunse tests available hain?',
   },
 };
 

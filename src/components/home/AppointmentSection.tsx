@@ -1,10 +1,19 @@
-import { useState, type FormEvent, type ReactNode } from 'react';
+import { useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { CalendarCheck, CalendarPlus, Phone, ShieldCheck, Siren } from 'lucide-react';
 import { doctors } from '@/data/doctors';
 import { site } from '@/data/site';
 import { Container } from '@/components/ui/Container';
 import { Reveal } from '@/components/ui/Reveal';
 import { Button } from '@/components/ui/Button';
+import { cn } from '@/lib/utils';
+import {
+  localISODate,
+  normaliseIndianMobile,
+  validateEmail,
+  validateFutureDate,
+  validateIndianMobile,
+  validateName,
+} from '@/lib/validation';
 
 const tel = (n: string) => `tel:${n.replace(/[^+\d]/g, '')}`;
 
@@ -45,10 +54,32 @@ interface Form {
   doctor: string;
   date: string;
 }
+type Errors = Partial<Record<keyof Form, string>>;
 const empty: Form = { name: '', mobile: '', email: '', speciality: '', doctor: '', date: '' };
+/** Field order, used to focus the first invalid field on submit. */
+const fieldOrder: (keyof Form)[] = ['name', 'mobile', 'email', 'speciality', 'doctor', 'date'];
+/** How far ahead an appointment can be requested. */
+const MAX_DAYS_AHEAD = 90;
 
-const inputCls =
-  'w-full rounded-xl border border-line bg-surface px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-muted focus-visible:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500/30';
+const inputCls = (invalid?: boolean) =>
+  cn(
+    'w-full rounded-xl border bg-surface px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-muted focus-visible:ring-2',
+    invalid
+      ? 'border-error focus-visible:border-error focus-visible:ring-error/30'
+      : 'border-line focus-visible:border-brand-500 focus-visible:ring-brand-500/30',
+  );
+
+function validate(form: Form, doctorNames: string[]): Errors {
+  const err: Errors = {
+    name: validateName(form.name),
+    mobile: validateIndianMobile(form.mobile),
+    email: validateEmail(form.email),
+    speciality: form.speciality ? undefined : 'Please select a speciality.',
+    doctor: form.doctor && !doctorNames.includes(form.doctor) ? 'Please choose a doctor from the list.' : undefined,
+    date: validateFutureDate(form.date, MAX_DAYS_AHEAD),
+  };
+  return Object.fromEntries(Object.entries(err).filter(([, v]) => v)) as Errors;
+}
 
 /**
  * "Contact for Emergency Services" beside the "Book an Appointment" form —
@@ -58,23 +89,55 @@ const inputCls =
  */
 export function AppointmentSection() {
   const [form, setForm] = useState<Form>(empty);
-  const [errors, setErrors] = useState<Partial<Record<keyof Form, string>>>({});
+  /* Errors show for a field once it's been left (blurred) or after a submit attempt. */
+  const [touched, setTouched] = useState<Partial<Record<keyof Form, boolean>>>({});
+  const [submitted, setSubmitted] = useState(false);
   const [sent, setSent] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const set = <K extends keyof Form>(k: K, v: Form[K]) => setForm((f) => ({ ...f, [k]: v }));
   const slug = specialityOptions.find((o) => o.label === form.speciality)?.slug;
   const doctorOptions = doctors
     .filter((d) => !slug || d.specialtySlugs.includes(slug))
     .sort((a, b) => a.name.localeCompare(b.name));
 
+  const allErrors = validate(form, doctorOptions.map((d) => d.name));
+  const errorFor = (k: keyof Form) => (submitted || touched[k] ? allErrors[k] : undefined);
+
+  const set = <K extends keyof Form>(k: K, v: Form[K]) => setForm((f) => ({ ...f, [k]: v }));
+  const touch = (k: keyof Form) => setTouched((t) => ({ ...t, [k]: true }));
+  /** Shared props wiring a control to its label, error and touched state. */
+  const control = (k: keyof Form) => ({
+    id: `appt-${k}`,
+    name: k,
+    onBlur: () => touch(k),
+    'aria-invalid': errorFor(k) ? true : undefined,
+    'aria-describedby': errorFor(k) ? `appt-${k}-error` : undefined,
+    className: inputCls(!!errorFor(k)),
+  });
+
   function submit(e: FormEvent) {
     e.preventDefault();
-    const err: typeof errors = {};
-    if (!form.name.trim()) err.name = 'Please enter your name.';
-    if (!/^[+\d][\d\s-]{7,}$/.test(form.mobile.trim())) err.mobile = 'Please enter a valid mobile number.';
-    if (form.email && !/^\S+@\S+\.\S+$/.test(form.email)) err.email = 'Please enter a valid email address.';
-    setErrors(err);
-    if (Object.keys(err).length === 0) setSent(true);
+    setSubmitted(true);
+    const first = fieldOrder.find((k) => allErrors[k]);
+    if (first) {
+      formRef.current?.querySelector<HTMLElement>(`#appt-${first}`)?.focus();
+      return;
+    }
+    // Store tidy values: collapsed whitespace, 10-digit mobile, trimmed email.
+    setForm((f) => ({
+      ...f,
+      name: f.name.trim().replace(/\s+/g, ' '),
+      mobile: normaliseIndianMobile(f.mobile) ?? f.mobile,
+      email: f.email.trim(),
+    }));
+    setSent(true);
+  }
+
+  function reset() {
+    setForm(empty);
+    setTouched({});
+    setSubmitted(false);
+    setSent(false);
   }
 
   return (
@@ -132,7 +195,7 @@ export function AppointmentSection() {
                 <p className="mt-2 max-w-sm text-muted">
                   Thank you, {form.name}. Our team will call you on {form.mobile} to confirm your appointment.
                 </p>
-                <Button type="button" variant="outline" className="mt-6" onClick={() => { setForm(empty); setSent(false); }}>
+                <Button type="button" variant="outline" className="mt-6" onClick={reset}>
                   Book another
                 </Button>
               </div>
@@ -144,35 +207,71 @@ export function AppointmentSection() {
                 <h2 className="mt-3 text-h2">Book an Appointment</h2>
                 <p className="mt-2 text-muted">Fill in your details and our team will call you to confirm a time.</p>
 
-                <form onSubmit={submit} noValidate className="mt-7 grid gap-4 sm:grid-cols-2">
-                  <Field label="Name" required error={errors.name}>
-                    <input type="text" autoComplete="name" placeholder="Name" value={form.name} onChange={(e) => set('name', e.target.value)} className={inputCls} />
+                <form ref={formRef} onSubmit={submit} noValidate className="mt-7 grid gap-4 sm:grid-cols-2">
+                  <Field id="appt-name" label="Name" required error={errorFor('name')}>
+                    <input
+                      type="text"
+                      autoComplete="name"
+                      placeholder="Name"
+                      maxLength={60}
+                      required
+                      value={form.name}
+                      onChange={(e) => set('name', e.target.value)}
+                      {...control('name')}
+                    />
                   </Field>
-                  <Field label="Mobile Number" required error={errors.mobile}>
-                    <input type="tel" autoComplete="tel" placeholder="Mobile Number" value={form.mobile} onChange={(e) => set('mobile', e.target.value)} className={inputCls} />
+                  <Field id="appt-mobile" label="Mobile Number" required error={errorFor('mobile')}>
+                    <input
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      placeholder="10-digit mobile number"
+                      maxLength={16}
+                      required
+                      value={form.mobile}
+                      /* Only digits, +, spaces and dashes can be typed. */
+                      onChange={(e) => set('mobile', e.target.value.replace(/[^\d+\s-]/g, ''))}
+                      {...control('mobile')}
+                    />
                   </Field>
-                  <Field label="Email Id" error={errors.email}>
-                    <input type="email" autoComplete="email" placeholder="Email Id" value={form.email} onChange={(e) => set('email', e.target.value)} className={inputCls} />
+                  <Field id="appt-email" label="Email Id" error={errorFor('email')}>
+                    <input
+                      type="email"
+                      inputMode="email"
+                      autoComplete="email"
+                      placeholder="Email Id (optional)"
+                      maxLength={254}
+                      value={form.email}
+                      onChange={(e) => set('email', e.target.value)}
+                      {...control('email')}
+                    />
                   </Field>
-                  <Field label="Speciality">
-                    <select value={form.speciality} onChange={(e) => { set('speciality', e.target.value); set('doctor', ''); }} className={inputCls}>
+                  <Field id="appt-speciality" label="Speciality" required error={errorFor('speciality')}>
+                    <select
+                      required
+                      value={form.speciality}
+                      onChange={(e) => { set('speciality', e.target.value); set('doctor', ''); }}
+                      {...control('speciality')}
+                    >
                       <option value="">Select Speciality</option>
                       {specialityOptions.map((o) => <option key={o.label} value={o.label}>{o.label}</option>)}
                     </select>
                   </Field>
-                  <Field label="Doctor">
-                    <select value={form.doctor} onChange={(e) => set('doctor', e.target.value)} className={inputCls}>
-                      <option value="">Select Doctors</option>
+                  <Field id="appt-doctor" label="Doctor (optional)" error={errorFor('doctor')}>
+                    <select value={form.doctor} onChange={(e) => set('doctor', e.target.value)} {...control('doctor')}>
+                      <option value="">Any available doctor</option>
                       {doctorOptions.map((d) => <option key={d.slug} value={d.name}>{d.name}</option>)}
                     </select>
                   </Field>
-                  <Field label="Preferred Date">
+                  <Field id="appt-date" label="Preferred Date" required error={errorFor('date')}>
                     <input
                       type="date"
-                      min={new Date().toISOString().split('T')[0]}
+                      required
+                      min={localISODate()}
+                      max={localISODate(MAX_DAYS_AHEAD)}
                       value={form.date}
                       onChange={(e) => set('date', e.target.value)}
-                      className={inputCls}
+                      {...control('date')}
                     />
                   </Field>
                   <div className="sm:col-span-2">
@@ -193,15 +292,15 @@ export function AppointmentSection() {
   );
 }
 
-function Field({ label, required, error, children }: { label: string; required?: boolean; error?: string; children: ReactNode }) {
+function Field({ id, label, required, error, children }: { id: string; label: string; required?: boolean; error?: string; children: ReactNode }) {
   return (
-    <label className="block">
-      <span className="mb-1.5 block text-sm font-medium text-brand-900">
+    <div>
+      <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-brand-900">
         {label}
-        {required && <span className="text-emergency"> *</span>}
-      </span>
+        {required && <span className="text-emergency" aria-hidden> *</span>}
+      </label>
       {children}
-      {error && <span className="mt-1 block text-xs text-error" role="alert">{error}</span>}
-    </label>
+      {error && <p id={`${id}-error`} className="mt-1 text-xs text-error" role="alert">{error}</p>}
+    </div>
   );
 }

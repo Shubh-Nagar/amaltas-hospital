@@ -6,7 +6,10 @@ import { Container } from '@/components/ui/Container';
 import { ArticleGrid } from '@/components/content/ArticleGrid';
 
 export default function EventsPage() {
-  const items = articles.filter((a) => a.kind === 'event');
+  /* Newest first; events without a confirmed date fall back to when they were posted. */
+  const items = articles
+    .filter((a) => a.kind === 'event')
+    .sort((a, b) => (b.eventDate ?? b.publishedAt).localeCompare(a.eventDate ?? a.publishedAt));
   return (
     <>
       <Seo title="Events" description="Health camps, awareness sessions and campus events at Amaltas." path="/events"

@@ -11,9 +11,11 @@ export interface PageImage {
   src: string;
   /** Decorative by default — the page title already carries the meaning. */
   alt?: string;
+  /** CSS object-position for the banner crop; defaults to centre. */
+  position?: string;
 }
 
-const g = (file: string): PageImage => ({ src: `/images/gallery/${file}` });
+const g = (file: string, position?: string): PageImage => ({ src: `/images/gallery/${file}`, position });
 
 /** Top-level pages, keyed by route path. */
 export const pageImages = {
@@ -26,7 +28,8 @@ export const pageImages = {
   contact: g('outpatient-consultation.webp'),
   doctors: g('surgical-team.webp'),
   emergency: g('emergency-bay.webp'),
-  events: g('support-security-team.webp'),
+  /* World AIDS Day awareness rally — cropped high so faces, not the sign, sit behind the title. */
+  events: g('events-awareness-rally.webp', 'center 25%'),
   facilities: g('general-ward.webp'),
   gallery: g('surgery-in-theatre.webp'),
   healthPackages: g('pathology-lab.webp'),

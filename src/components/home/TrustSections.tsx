@@ -27,7 +27,7 @@ export function TrustStats() {
 
 const pillars = [
   { icon: ShieldCheck, title: 'Accredited care', body: 'NABH-accredited processes focused on patient safety and quality.' },
-  { icon: Microscope, title: 'Integrated diagnostics', body: 'Pathology, imaging and specialist teams coordinated under one roof.' },
+  { icon: Microscope, title: 'Integrated diagnostics', body: 'Pathology, imaging and 25+ specialist teams coordinated under one roof.' },
   { icon: HeartHandshake, title: 'Human-centred', body: 'Care designed around patients and families, not just departments.' },
   { icon: Users, title: 'Regional reach', body: 'Serving Dewas and surrounding districts of Central India.' },
 ];

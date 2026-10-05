@@ -33,6 +33,8 @@ export interface ChatContext {
   doctor?: string;
   service?: string;
   facility?: string;
+  /** Brochure programme slug (src/data/brochure.ts). */
+  programme?: string;
   /** Last topic Riya answered — lets "his number?" follow a doctor profile. */
   topic?: string;
   /** Doctor slugs offered when a name was ambiguous. */

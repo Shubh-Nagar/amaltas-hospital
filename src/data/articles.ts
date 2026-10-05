@@ -1,4 +1,5 @@
 import type { Article, ImageAsset } from '@/types';
+import { eventArchive } from './eventArchive';
 
 /** Builds a gallery of same-sized event photos from a folder of sequentially-named files. */
 const gallery = (folder: string, files: string[], width: number, height: number, alt: string): ImageAsset[] =>
@@ -11,7 +12,7 @@ const gallery = (folder: string, files: string[], width: number, height: number,
  * posts, written by Amaltas doctors and published at amaltashospital.in/blog;
  * their cover images are downloaded from those posts.
  */
-export const articles: Article[] = [
+const baseArticles: Article[] = [
   {
     slug: 'dry-eye-a-common-problem-we-often-ignore',
     kind: 'article',
@@ -113,40 +114,62 @@ export const articles: Article[] = [
 <p lang="hi">उनका मार्गदर्शन एवं प्रोत्साहन हमारे लिए प्रेरणास्रोत है।</p>`,
   },
   {
+    slug: 'world-heart-day-celebration-at-amaltas-hospital',
+    kind: 'event',
+    title: 'World Heart Day Celebration at Amaltas Hospital',
+    excerpt: 'Amaltas Hospital marked World Heart Day to raise awareness about heart health, prevention of heart disease and the value of regular check-ups.',
+    category: 'Event',
+    publishedAt: '2026-09-29',
+    eventDate: '2026-09-29',
+    cover: { src: '/images/events/gallery/world-heart-day/01.jpeg', alt: 'Felicitation during the World Heart Day celebration at Amaltas Hospital', width: 1440, height: 959 },
+    gallery: gallery(
+      'world-heart-day',
+      ['02.jpeg', '03.jpeg', '04.jpeg', '05.jpeg', '06.jpeg', '07.jpeg', '08.jpeg', '09.jpeg', '10.jpeg', '11.jpeg'],
+      1440,
+      959,
+      'World Heart Day celebration at Amaltas Hospital',
+    ),
+    body: `<p>World Heart Day was celebrated with enthusiasm to raise awareness about heart health and to share the message of a healthy lifestyle. On this occasion, people were made aware of good health, the prevention of heart disease and the importance of regular health check-ups.</p>
+<p>A healthy heart, a healthy life!</p>
+<p lang="hi">दिल की सेहत के प्रति जागरूकता बढ़ाने और स्वस्थ जीवनशैली का संदेश देने के उद्देश्य से World Heart Day का आयोजन उत्साहपूर्वक किया गया।</p>
+<p lang="hi">इस अवसर पर स्वास्थ्य, हृदय रोगों से बचाव और नियमित स्वास्थ्य जांच के महत्व के बारे में जागरूक किया गया।</p>
+<p lang="hi">एक स्वस्थ दिल, एक स्वस्थ जीवन!</p>`,
+  },
+  {
+    slug: 'celebrating-world-heart-day',
+    kind: 'event',
+    title: 'Celebrating World Heart Day!',
+    excerpt: "Let's put our hearts first and make healthy choices every day — every small step can make a big difference.",
+    category: 'Event',
+    publishedAt: '2026-09-29',
+    eventDate: '2026-09-29',
+    cover: { src: '/images/events/gallery/world-heart-day-2/02.jpeg', alt: 'Amaltas Institute of Medical Sciences paramedical students and faculty with a World Heart Day banner', width: 1440, height: 959 },
+    gallery: [
+      { src: '/images/events/gallery/world-heart-day-2/01.jpeg', alt: 'Student heart-health models on display for World Heart Day, including pacemaker, ECG and angioplasty models', width: 1200, height: 1600 },
+      ...gallery(
+        'world-heart-day-2',
+        ['03.jpeg', '04.jpeg', '05.jpeg', '06.jpeg', '07.jpeg', '08.jpeg', '09.jpeg', '10.jpeg', '11.jpeg', '12.jpeg'],
+        1440,
+        959,
+        'World Heart Day at Amaltas Institute of Medical Sciences',
+      ),
+    ],
+    body: `<p>Let's put our hearts first and make healthy choices every day. From staying active and eating well to managing stress and spreading awareness, every small step can make a big difference.</p>`,
+  },
+  {
     slug: 'amaltas-medical-inspection-room-indore-airport',
-    kind: 'news',
+    kind: 'event',
     title: 'Amaltas Medical Inspection Room at Indore Airport',
     excerpt: 'The Amaltas Medical Inspection Room at Indore Airport provides passengers with prompt, quality first aid and medical assistance during travel.',
-    category: 'Hospital News',
+    category: 'Event',
     publishedAt: '2026-09-15',
+    eventDate: '2026-09-15',
     cover: { src: '/images/events/gallery/airport-medical-room/04.jpeg', alt: 'An Amaltas doctor consulting with a passenger at the Medical Inspection Room, Indore Airport', width: 1170, height: 1170 },
     gallery: gallery('airport-medical-room', ['01.jpeg', '02.jpeg', '03.jpeg'], 1170, 1170, 'Amaltas Medical Inspection Room, Indore Airport'),
     body: `<p>The Amaltas Medical Inspection Room at Indore Airport is always ready to provide passengers with immediate, quality first-aid services. In case of any health problem during travel, passengers receive timely first aid and the medical assistance they need.</p>
 <p lang="hi">इंदौर एयरपोर्ट पर स्थित अमलतास मेडिकल इंस्पेक्शन रूम यात्रियों की स्वास्थ्य संबंधी आवश्यकताओं के लिए तत्काल एवं गुणवत्तापूर्ण प्राथमिक चिकित्सा सेवाएँ उपलब्ध कराने के लिए सदैव तत्पर है।</p>
 <p lang="hi">यात्रा के दौरान किसी भी स्वास्थ्य संबंधी परेशानी की स्थिति में यात्रियों को समय पर प्राथमिक उपचार एवं आवश्यक चिकित्सकीय सहायता प्रदान की जाती है।</p>
 <p lang="hi">आपकी सुरक्षित यात्रा, हमारी जिम्मेदारी। अमलतास — स्वास्थ्य सेवा में सदैव आपके साथ।</p>`,
-  },
-  {
-    slug: 'pediatrics-ug-quiz-competition-2026',
-    kind: 'news',
-    title: 'Pediatrics UG Quiz Competition 2026',
-    excerpt: 'MBBS students at Amaltas Institute of Medical Sciences took part in a pediatrics quiz testing their clinical knowledge and teamwork.',
-    category: 'Hospital News',
-    publishedAt: '2026-08-04',
-    cover: { src: '/images/news/pediatrics-ug-quiz-2026.jpeg', alt: 'MBBS students and faculty at the Pediatrics UG Quiz Competition 2026', width: 1024, height: 682 },
-    body: `<p>Amaltas Institute of Medical Sciences hosted a Pediatrics UG Quiz Competition for its MBBS students, giving participants a chance to test their clinical knowledge of child health topics in a team format.</p>
-<p>Participating students were felicitated with certificates recognising their preparation and performance on the day.</p>`,
-  },
-  {
-    slug: 'independence-day-celebration-2026',
-    kind: 'news',
-    title: 'Independence Day Celebration at Amaltas Super Speciality Hospital',
-    excerpt: "Amaltas Super Speciality Hospital and Amaltas University, Dewas, marked India's Independence Day with a campus celebration.",
-    category: 'Hospital News',
-    publishedAt: '2026-08-19',
-    cover: { src: '/images/news/independence-day-2026.jpeg', alt: "Independence Day celebration at Amaltas Super Speciality Hospital and Amaltas University, Dewas", width: 1024, height: 682 },
-    body: `<p>Amaltas Super Speciality Hospital and Amaltas University, Dewas, came together to mark India's Independence Day with a campus celebration.</p>
-<p>Hospital and university leadership, along with staff, exchanged greetings as part of the occasion.</p>`,
   },
   {
     slug: 'independence-day-celebration-2026',
@@ -282,3 +305,6 @@ export const articles: Article[] = [
 <p>Faculty and leadership joined the occasion, which included a traditional inaugural lamp-lighting.</p>`,
   },
 ];
+
+
+export const articles: Article[] = [...baseArticles, ...eventArchive];

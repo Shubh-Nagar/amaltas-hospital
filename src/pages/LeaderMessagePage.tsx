@@ -39,6 +39,7 @@ export default function LeaderMessagePage({ slug }: { slug: string }) {
             <figcaption className="mt-4">
               <p className="font-display text-xl font-semibold text-brand-800">{leader.name}</p>
               <p className="text-sm text-muted">{leader.title}</p>
+              {leader.credentials && <p className="mt-1 text-xs text-muted">{leader.credentials}</p>}
             </figcaption>
           </figure>
 

@@ -28,8 +28,7 @@ export const primaryNav: NavItem[] = [
         links: [
           { label: 'About Amaltas', href: '/about' },
           { label: "Chairman's Message", href: '/about/chairman-message' },
-          { label: "Medical Superintendent's Message", href: '/about/medical-superintendent-message' },
-          { label: "COO's Message", href: '/about/coo-message' },
+          { label: "Dean's Message", href: '/about/dean-message' },
           { label: 'Why Choose Amaltas', href: '/about/why-choose-amaltas' },
           { label: 'Accreditations', href: '/about#accreditations' },
           { label: 'Facilities', href: '/facilities' },
