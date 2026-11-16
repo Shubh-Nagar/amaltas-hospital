@@ -18,6 +18,7 @@ export interface PageImage {
 const g = (file: string, position?: string): PageImage => ({ src: `/images/gallery/${file}`, position });
 
 /** Top-level pages, keyed by route path. */
+/** Top-level pages, keyed by route path. */
 export const pageImages = {
   about: g('campus-exterior-front.webp'),
   administration: g('department-of-medicine-team.webp'),
