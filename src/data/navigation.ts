@@ -122,6 +122,7 @@ export const primaryNav: NavItem[] = [
     ],
   },
   { label: 'Academics', href: '/academics' },
+  { label: 'Contact Us', href: '/contact' },
 ];
 
 export const footerNav: NavColumn[] = [

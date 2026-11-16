@@ -49,7 +49,7 @@ export default function DoctorsPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by name or role…"
-              className="w-full rounded-full border border-line bg-surface py-3 pl-11 pr-4 outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+              className="w-full rounded-full border border-line bg-surface py-3 pl-11 pr-4 text-ink outline-none placeholder:text-muted focus-visible:ring-2 focus-visible:ring-brand-500"
             />
           </label>
           <label className="sm:w-64">
@@ -57,11 +57,11 @@ export default function DoctorsPage() {
             <select
               value={specialty}
               onChange={(e) => setSpecialty(e.target.value)}
-              className="w-full rounded-full border border-line bg-surface px-4 py-3 outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+              className="w-full rounded-full border border-line bg-surface px-4 py-3 text-ink outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
             >
-              <option value="all">All specialties</option>
+              <option value="all" className="text-ink">All specialties</option>
               {specialties.map((s) => (
-                <option key={s.slug} value={s.slug}>{s.name}</option>
+                <option key={s.slug} value={s.slug} className="text-ink">{s.name}</option>
               ))}
             </select>
           </label>

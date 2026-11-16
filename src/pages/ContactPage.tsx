@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useState } from 'react';
-import { Phone, Mail, MapPin, Navigation, Building2, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, Navigation, Send } from 'lucide-react';
 import { Seo, medicalOrgJsonLd } from '@/lib/seo/Seo';
 import { site } from '@/data/site';
 import { PageHeader } from '@/components/ui/PageHeader';
@@ -27,9 +27,7 @@ export default function ContactPage() {
             <div className="grid gap-4 sm:grid-cols-2">
               <ContactCard icon={<Phone className="h-5 w-5" />} title="Toll Free" lines={[site.phone.tollFree, site.phone.primary]} href={`tel:${site.phone.tollFree.replace(/[^+\d]/g, '')}`} />
               <ContactCard icon={<Mail className="h-5 w-5" />} title="Email" lines={[site.email.general]} href={`mailto:${site.email.general}`} />
-              <ContactCard icon={<MapPin className="h-5 w-5" />} title="Hospital" lines={[site.address.line1, `${site.address.city}, ${site.address.state} ${site.address.postalCode}`]} />
-              <ContactCard icon={<Building2 className="h-5 w-5" />} title={site.cityOffice.label} lines={[site.cityOffice.line1, `${site.cityOffice.city} ${site.cityOffice.postalCode}`]} />
-            </div>
+              <ContactCard icon={<MapPin className="h-5 w-5" />} title="Hospital" lines={[site.address.line1, `${site.address.city}, ${site.address.state} ${site.address.postalCode}`]} />            </div>
 
             <div className="mt-6">
               <Button href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}><Navigation className="h-4 w-4" aria-hidden /> Get directions</Button>

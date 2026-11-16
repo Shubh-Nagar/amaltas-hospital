@@ -1,4 +1,4 @@
-import { CalendarPlus, Stethoscope, ShieldCheck, MapPin } from 'lucide-react';
+import { CalendarPlus, ShieldCheck, MapPin } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { site } from '@/data/site';
 import { Container } from '@/components/ui/Container';
@@ -75,9 +75,6 @@ export function Hero() {
             <motion.div {...rise(0.24)} className="mt-8 flex flex-wrap items-center gap-3">
               <Button to="/patients/appointment" size="lg" variant="secondary">
                 <CalendarPlus className="h-5 w-5" aria-hidden /> Book an Appointment
-              </Button>
-              <Button to="/doctors" size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10">
-                <Stethoscope className="h-5 w-5" aria-hidden /> Find a Doctor
               </Button>
               <EmergencyButton className="!py-3.5" />
             </motion.div>

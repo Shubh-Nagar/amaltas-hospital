@@ -1,13 +1,11 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, Search, CalendarPlus, Stethoscope, FlaskConical, Phone, MapPin, HeartPulse } from 'lucide-react';
+import { Menu, Search, CalendarPlus, Stethoscope, FlaskConical, HeartPulse } from 'lucide-react';
 import { site } from '@/data/site';
 import { MegaMenu } from '@/components/navigation/MegaMenu';
 import { MobileMenu } from '@/components/navigation/MobileMenu';
 import { SearchDialog } from '@/components/search/SearchDialog';
 import { cn } from '@/lib/utils';
-
-const tel = (n: string) => `tel:${n.replace(/[^+\d]/g, '')}`;
 
 /** Patient tasks get buttons of their own, separate from the menu of information. */
 const quickActions = [
@@ -30,34 +28,14 @@ function Logo({ light }: { light: boolean }) {
   );
 }
 
-/** Thin strip above the header: urgent numbers on the left, secondary links on the right. */
+/** Thin strip above the header with secondary links. */
 function UtilityBar() {
   return (
     <div className="hidden bg-brand-900 text-white/85 md:block">
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-6 py-1.5 text-xs lg:px-8">
-        <div className="flex items-center gap-5">
-          <a
-            href={tel(site.phone.emergency)}
-            className="inline-flex items-center gap-2 rounded-full bg-emergency px-3 py-1 font-semibold text-white transition-colors hover:bg-emergency-dark"
-            aria-label={`24x7 Emergency — call ${site.phone.emergency}`}
-          >
-            <span className="relative flex h-1.5 w-1.5" aria-hidden>
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/70" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-white" />
-            </span>
-            24×7 Emergency: {site.phone.emergency}
-          </a>
-          <a href={tel(site.phone.primary)} className="inline-flex items-center gap-1.5 hover:text-white">
-            <Phone className="h-3.5 w-3.5" aria-hidden /> {site.phone.primary}
-          </a>
-          <Link to="/contact#directions" className="hidden items-center gap-1.5 hover:text-white lg:inline-flex">
-            <MapPin className="h-3.5 w-3.5" aria-hidden /> Dewas–Ujjain Highway, Dewas
-          </Link>
-        </div>
+      <div className="mx-auto flex max-w-[1600px] items-center justify-end gap-4 px-6 py-1.5 text-xs lg:px-8">
         <nav aria-label="Utility" className="flex items-center gap-4">
           <Link to="/patients" className="hover:text-white">Patient Guide</Link>
           <Link to="/academics" className="hover:text-white">Academics (AIMS)</Link>
-          <Link to="/contact" className="hover:text-white">Contact Us</Link>
         </nav>
       </div>
     </div>
